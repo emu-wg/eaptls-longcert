@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Handling Large Certificates and Long Certificate Chains in EAP-TLS</title>
+
+  
+<style type="text/css">/*<![CDATA[*/
+
+body {
+  font: 16px "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 24px;
+  margin: 75px auto;
+  max-width: 624px;
+  padding: 0 5px;
+}
+
+.title, .filename, h1, h2, h3, h4, h5 {
+  font: 16px "Roboto Condensed","Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: bold;
+  color: #333;
+  line-height: 100%;
+  margin: 1.2em 0 0.3em;
+}
+.title, #rfc\.title h1 { font-size: 32px; }
+h1, section h1, h2, section h2, section h3, nav h2 { font-size: 20px; }
+h3, section h4, h4, section h5 { font-size: 16px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header, table#rfc\.headerblock {
+  width: 100%;
+}
+table.header td, table#rfc\.headerblock td {
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 0;
+}
+.filename {
+  display: block;
+  color: rgb(119, 119, 119);
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 100%;
+  margin: 10px 0 32px;
+}
+#rfc\.abstract+p, #rfc\.abstract p {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+samp, tt, code, pre {
+  font: 15px Consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure, caption {
+  font-style: italic;
+  margin: 0 1.5em;
+  text-align: left;
+}
+
+address {
+  margin: 16px 2px;
+  line-height: 20px;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn, address b {
+  font-weight: normal;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+hr.noprint {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+p, ol, ul, li {
+  padding: 0;
+}
+p {
+  margin: 0.5em 0;
+}
+ol, ul {
+  margin: 0.2em 0 0.2em 2em;
+}
+li {
+  margin: 0.2em 0;
+}
+address {
+  font-style: normal;
+}
+
+ul.toc ul {
+  margin: 0 0 0 2em;
+}
+ul.toc li {
+  list-style: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 924px) {
+  body {
+    padding-right: 350px;
+  }
+  body>ul.toc, body>#rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    z-index: 1;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  body>#rfc\.toc {
+    top: 55px;
+  }
+  body>ul.toc {
+    top: 100px;
+  }
+
+  ul.toc {
+    margin: 0 0 0 4px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  ul.toc ul {
+    margin-left: 1.2em;
+  }
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+  /*]]>*/</style>
+  <meta name="viewport" content="initial-scale=1.0">
+
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.2" rel="Chapter" title="2 Terminology">
+<link href="#rfc.section.3" rel="Chapter" title="3 Experience with Deployments">
+<link href="#rfc.section.4" rel="Chapter" title="4 Handling of Large Certificates and Long Certificate Chains">
+<link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
+<link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
+<link href="#rfc.references" rel="Chapter" title="7 References">
+<link href="#rfc.references.1" rel="Chapter" title="7.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="7.2 Informative References">
+<link href="#rfc.acknowledgements" rel="Chapter">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.10.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Sethi, M. and J. Mattsson" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-ms-emu-eaptlscert-latest" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-06" />
+  <meta name="dct.abstract" content="Extensible Authentication Protocol (EAP) provides support for multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) provides means for key derivation and strong mutual authentication with certificates. However, certificates can often be relatively large in size. The certificate chain to the root-of-trust can also be long when multiple intermediate Certification Authorities (CAs) are involved. This implies that EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower-layer. Such fragmentation can not only negatively affect the latency, but also results in implementation challenges. For example, many authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40&#8211;50 packets. This can result in failed authentication even when the two communicating parties have the correct credentials for mutual authentication. Moreover, there are no mechanisms available to easily recover from such situations. This memo looks at the problem in detail and discusses the solutions available to overcome these deployment challenges.  " />
+  <meta name="description" content="Extensible Authentication Protocol (EAP) provides support for multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) provides means for key derivation and strong mutual authentication with certificates. However, certificates can often be relatively large in size. The certificate chain to the root-of-trust can also be long when multiple intermediate Certification Authorities (CAs) are involved. This implies that EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower-layer. Such fragmentation can not only negatively affect the latency, but also results in implementation challenges. For example, many authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40&#8211;50 packets. This can result in failed authentication even when the two communicating parties have the correct credentials for mutual authentication. Moreover, there are no mechanisms available to easily recover from such situations. This memo looks at the problem in detail and discusses the solutions available to overcome these deployment challenges.  " />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">Internet Engineering Task Force</td>
+<td class="right">M. Sethi</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">J. Mattsson</td>
+</tr>
+<tr>
+<td class="left">Intended status: Informational</td>
+<td class="right">Ericsson</td>
+</tr>
+<tr>
+<td class="left">Expires: February 7, 2019</td>
+<td class="right">August 6, 2018</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Handling Large Certificates and Long Certificate Chains in EAP-TLS<br />
+  <span class="filename">draft-ms-emu-eaptlscert-latest</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>Extensible Authentication Protocol (EAP) provides support for multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) provides means for key derivation and strong mutual authentication with certificates. However, certificates can often be relatively large in size. The certificate chain to the root-of-trust can also be long when multiple intermediate Certification Authorities (CAs) are involved. This implies that EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower-layer. Such fragmentation can not only negatively affect the latency, but also results in implementation challenges. For example, many authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40&#8211;50 packets. This can result in failed authentication even when the two communicating parties have the correct credentials for mutual authentication. Moreover, there are no mechanisms available to easily recover from such situations. This memo looks at the problem in detail and discusses the solutions available to overcome these deployment challenges.  </p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on February 7, 2019.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<li>2.   <a href="#rfc.section.2">Terminology</a>
+</li>
+<li>3.   <a href="#rfc.section.3">Experience with Deployments</a>
+</li>
+<li>4.   <a href="#rfc.section.4">Handling of Large Certificates and Long Certificate Chains</a>
+</li>
+<li>5.   <a href="#rfc.section.5">IANA Considerations</a>
+</li>
+<li>6.   <a href="#rfc.section.6">Security Considerations</a>
+</li>
+<li>7.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>7.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>7.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li><a href="#rfc.acknowledgements">Acknowledgements</a>
+</li>
+<li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> Introduction</h1>
+<p id="rfc.section.1.p.1">EAP-TLS is widely deployed and often used for network access authentication of requesting peers. EAP-TLS provides strong mutual authentication with certificates. However, certificates can be large and certificate chains can often be long. This implies that EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower-layer. Such fragmentation can not only negatively affect the latency, but also results in implementation challenges. For example, many authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40&#8211;50 packets. This has led to a situation where a client and server cannot authenticate each other even though both the sides have valid credentials for successful authentication and key derivation.  </p>
+<p id="rfc.section.1.p.2">Unlike TLS authentication on the web, where typically only the server is authenticated with certificates; in EAP-TLS both the client and server are authenticated with certificates. Therefore, EAP-TLS authentication involves exchange of larger number of messages than regular TLS authentication on the web. Also, from deployment experience, the end-entity certificate for clients typically has a longer certificate chain to the root-of-trust than the end-entity certificate for the server.  </p>
+<p id="rfc.section.1.p.3">This memo looks at related work and potential tools available for overcoming the implementation challenges induced by large certificates and long certificate chains. It then discusses the solutions available to overcome these deployment challenges. The draft is a very early version and aims to foster discussion in the working group.  </p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> Terminology</h1>
+<p id="rfc.section.2.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <a href="#RFC2119" class="xref">RFC 2119</a> <a href="#RFC8174" class="xref">RFC 8174</a> when, and only when, they appear in all capitals, as shown here.  </p>
+<p id="rfc.section.2.p.2">In addition, this document frequently uses the following terms as they have been defined in <a href="#RFC5216" class="xref">[RFC5216]</a>: </p>
+
+<dl>
+<dt>authenticator</dt>
+<dd style="margin-left: 6">The entity initiating EAP authentication.  </dd>
+<dt>peer</dt>
+<dd style="margin-left: 6">The entity that responds to the authenticator. In  <a href="#IEEE-802.1X" class="xref">[IEEE-802.1X]</a>, this entity is known as the supplicant.  </dd>
+<dt>server</dt>
+<dd style="margin-left: 6">The entity that terminates the EAP authentication method with the peer. In the case where no backend authentication server is used, the EAP server is part of the authenticator. In the case where the authenticator operates in pass-through mode, the EAP server is located on the backend authentication server.  </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> Experience with Deployments</h1>
+<p id="rfc.section.3.p.1">The EAP fragment size in typical deployments can be 1000&#8211;1500 bytes. Certificate sizes can be large for a number of reasons: </p>
+
+<ul>
+<li>Long Subject Alternative Name field.</li>
+<li>Long Public Key and Signature fields.</li>
+<li>Can contain multiple object identifiers (OID) that indicate the permitted uses of the certificate. For example, Windows requires certain OID's in the certificates for EAP-TLS to work.</li>
+<li>Multiple user groups in the certificate.</li>
+</ul>
+
+<p> </p>
+<p id="rfc.section.3.p.2">The certificate chain can typically include 2&#8211;6 certificates to the root-of-trust.  </p>
+<p id="rfc.section.3.p.3">Most common access points implementations drop EAP sessions that don't complete within 50 round trips. This means that if the chain is larger than ~ 60 kB, EAP-TLS authentication cannot complete successfully in most deployments.  </p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> Handling of Large Certificates and Long Certificate Chains</h1>
+<p id="rfc.section.4.p.1">This section discusses some possible alternatives for overcoming the challenge of large certificates and long certificate chains in EAP-TLS authentication.  </p>
+<p id="rfc.section.4.p.2">Many IETF protocols now use elliptic curve cryptography (ECC) <a href="#RFC6090" class="xref">[RFC6090]</a> for the underlying cryptographic operations. The use of ECC can reduce the size of certificates and signatures. For example, the size of public keys with traditional RSA is about 384 bytes, while the size of public keys with ECC is only 32 bytes. Similarly, the size of digital signatures with traditional RSA is 384 bytes, while the size is only 64 bytes with elliptic curve digital signature algorithm (ECDSA) and Edwards-curve digital signature algorithm (EdDSA) <a href="#RFC8032" class="xref">[RFC8032]</a>. Using certificates that use ECC can reduce the number of messages in EAP-TLS authentication which can alleviate the problem of authenticators dropping an EAP session because of too many packets. TLS 1.3 <a href="#I-D.ietf-tls-tls13" class="xref">[I-D.ietf-tls-tls13]</a> requires implementations to support ECC. New cipher suites that use ECC are also specified for TLS 1.2 <a href="#RFC5289" class="xref">[RFC5289]</a>. Using the newer TLS version or ECC based cipher suites for older TLS versions can reduce the number of messages in an EAP session.  </p>
+<p id="rfc.section.4.p.3">TLS allows endpoints to reduce the sizes of Certificate messages by omitting certificates that the other endpoint is known to possess.  When using TLS 1.3, all certificates that specifies a trust anchor may be omitted. When using TLS 1.2 or earlier, only the self-signed certificate that specifies the root certificate authority may be omitted.  </p>
+<p id="rfc.section.4.p.4">The TLS Cached Information Extension <a href="#RFC7924" class="xref">[RFC7924]</a> specifies an extension where a server can exclude transmission of certificate information cached in an earlier TLS handshake. The client and the server would first execute the full TLS handshake. The client would then cache the certificate provided by the server. When the TLS client later connects to the same TLS server without using session resumption, it can attach the "cached_info" extension to the ClientHello message. This would allow the client to indicate that it has cached the certificate. The client would also include a fingerprint of the server certificate chain. If the server's certificate has not changed, then the server does not need to send its certificate and the corresponding certificate chain again. In case information has changed, which can be seen from the fingerprint provided by the client, the certificate payload is transmitted to the client to allow the client to update the cache. The extension however necessitates a successful full handshake before any caching. Since authenticator (access point) implementations drop an EAP session that does not complete within 40&#8211;50 packets, a successful full handshake is not possible. One option would be to cache validated certificate chains even if the EAP-TLS exchange fails, but this is currently not allowed according to <a href="#RFC7924" class="xref">[RFC7924]</a>.  </p>
+<p id="rfc.section.4.p.5">The TLS working group is also working on an extension for TLS 1.3 <a href="#I-D.ietf-tls-certificate-compression" class="xref">[I-D.ietf-tls-certificate-compression]</a> that allows compression of certificates and certificate chains during full handshakes. The client can indicate support for compressed server certificates by including this extension in the ClientHello message. Similarly, the server can indicate support for compression of client certificates by including this extension in the CertificateRequest message. While such an extension can alleviate the problem of excessive fragmentation in EAP-TLS, it can only be used with TLS version 1.3 and higher. Deployments that already have issued certificates and rely on older versions of TLS cannot benefit from this extension.  </p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+</h1>
+<p id="rfc.section.5.p.1">This memo includes no request to IANA.</p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> <a href="#Security" id="Security">Security Considerations</a>
+</h1>
+<p id="rfc.section.6.p.1">TBD</p>
+<h1 id="rfc.references">
+<a href="#rfc.references">7.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">7.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5216">[RFC5216]</b></td>
+<td class="top">
+<a>Simon, D.</a>, <a>Aboba, B.</a> and <a>R. Hurst</a>, "<a href="https://tools.ietf.org/html/rfc5216">The EAP-TLS Authentication Protocol</a>", RFC 5216, DOI 10.17487/RFC5216, March 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8174">[RFC8174]</b></td>
+<td class="top">
+<a>Leiba, B.</a>, "<a href="https://tools.ietf.org/html/rfc8174">Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</a>", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">7.2.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="I-D.ietf-tls-certificate-compression">[I-D.ietf-tls-certificate-compression]</b></td>
+<td class="top">
+<a>Ghedini, A.</a> and <a>V. Vasiliev</a>, "<a href="https://tools.ietf.org/html/draft-ietf-tls-certificate-compression-03">Transport Layer Security (TLS) Certificate Compression</a>", Internet-Draft draft-ietf-tls-certificate-compression-03, April 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-tls-tls13">[I-D.ietf-tls-tls13]</b></td>
+<td class="top">
+<a>Rescorla, E.</a>, "<a href="https://tools.ietf.org/html/draft-ietf-tls-tls13-28">The Transport Layer Security (TLS) Protocol Version 1.3</a>", Internet-Draft draft-ietf-tls-tls13-28, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="IEEE-802.1X">[IEEE-802.1X]</b></td>
+<td class="top">
+<a>Institute of Electrical and Electronics Engineers</a>, "<a>Local and Metropolitan Area Networks: Port-Based Network Access Control</a>",  IEEE Standard 802.1X-2004. , December 2004.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5289">[RFC5289]</b></td>
+<td class="top">
+<a>Rescorla, E.</a>, "<a href="https://tools.ietf.org/html/rfc5289">TLS Elliptic Curve Cipher Suites with SHA-256/384 and AES Galois Counter Mode (GCM)</a>", RFC 5289, DOI 10.17487/RFC5289, August 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6090">[RFC6090]</b></td>
+<td class="top">
+<a>McGrew, D.</a>, <a>Igoe, K.</a> and <a>M. Salter</a>, "<a href="https://tools.ietf.org/html/rfc6090">Fundamental Elliptic Curve Cryptography Algorithms</a>", RFC 6090, DOI 10.17487/RFC6090, February 2011.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7924">[RFC7924]</b></td>
+<td class="top">
+<a>Santesson, S.</a> and <a>H. Tschofenig</a>, "<a href="https://tools.ietf.org/html/rfc7924">Transport Layer Security (TLS) Cached Information Extension</a>", RFC 7924, DOI 10.17487/RFC7924, July 2016.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8032">[RFC8032]</b></td>
+<td class="top">
+<a>Josefsson, S.</a> and <a>I. Liusvaara</a>, "<a href="https://tools.ietf.org/html/rfc8032">Edwards-Curve Digital Signature Algorithm (EdDSA)</a>", RFC 8032, DOI 10.17487/RFC8032, January 2017.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.acknowledgements"><a href="#rfc.acknowledgements">Acknowledgements</a></h1>
+<p id="rfc.section.A.p.1">This draft is a result of several useful discussions with Alan DeKok, Bernard Aboba, and Jari Arkko.</p>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Mohit Sethi</span> 
+	  <span class="n hidden">
+		<span class="family-name">Sethi</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Ericsson</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality">Jorvas</span>,  
+		<span class="region"></span>
+		<span class="code">02420</span>
+	  </span>
+	  <span class="country-name vcardline">Finland</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:mohit@piuha.net">mohit@piuha.net</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">John Mattsson</span> 
+	  <span class="n hidden">
+		<span class="family-name">Mattsson</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Ericsson</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality">Kista</span>,  
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline">Sweden</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:john.mattsson@ericsson.com">john.mattsson@ericsson.com</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
