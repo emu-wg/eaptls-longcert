@@ -87,8 +87,8 @@ Table of Contents
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
      7.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .   7
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   7
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .   8
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   8
 
 1.  Introduction
 
@@ -362,6 +362,38 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/info/rfc8446>.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 7]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
+
+
 Acknowledgements
 
    This draft is a result of several useful discussions with Alan DeKok,
@@ -374,7 +406,7 @@ Authors' Addresses
    Jorvas  02420
    Finland
 
-   Email: mohit@piuha.net
+   EMail: mohit@piuha.net
 
 
    John Mattsson
@@ -382,11 +414,35 @@ Authors' Addresses
    Kista
    Sweden
 
-   Email: john.mattsson@ericsson.com
+   EMail: john.mattsson@ericsson.com
 
 
 
 
 
 
-Sethi & Mattsson         Expires April 17, 2019                 [Page 7]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 8]
