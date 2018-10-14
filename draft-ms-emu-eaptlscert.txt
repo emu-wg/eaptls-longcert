@@ -24,7 +24,7 @@ Abstract
    the lower-layer.  Such fragmentation can not only negatively affect
    the latency, but also results in implementation challenges.  For
    example, many authenticator (access point) implementations will drop
-   an EAP session if it hasn't finished after 40-50 packets.  This can
+   an EAP session if it hasn't finished after 40 - 50 packets.  This can
    result in failed authentication even when the two communicating
    parties have the correct credentials for mutual authentication.
    Moreover, there are no mechanisms available to easily recover from
@@ -127,7 +127,7 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
    overcoming the implementation challenges induced by large
    certificates and long certificate chains.  It then discusses the
    solutions available to overcome these deployment challenges.  The
-   draft is a very early version and aims to foster discussion in the
+   draft is an early version and aims to foster discussion in the
    working group.
 
 2.  Terminology
@@ -154,8 +154,8 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
 
 3.  Experience with Deployments
 
-   The EAP fragment size in typical deployments can be 1000-1500 bytes.
-   Certificate sizes can be large for a number of reasons:
+   The EAP fragment size in typical deployments can be 1000 - 1500
+   bytes.  Certificate sizes can be large for a number of reasons:
 
    o  Long Subject Alternative Name field.
 
@@ -176,7 +176,7 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
 
    o  Multiple user groups in the certificate.
 
-   The certificate chain can typically include 2-6 certificates to the
+   The certificate chain can typically include 2 - 6 certificates to the
    root-of-trust.
 
    Most common access point implementations drop EAP sessions that don't
@@ -371,7 +371,7 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
 Acknowledgements
 
    This draft is a result of several useful discussions with Alan DeKok,
-   Bernard Aboba, and Jari Arkko.
+   Bernard Aboba, Jari Arkko, Darshak Thakore and Hannes Tschofening.
 
 Authors' Addresses
 
