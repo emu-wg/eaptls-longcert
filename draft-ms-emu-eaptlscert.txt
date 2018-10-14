@@ -24,7 +24,7 @@ Abstract
    the lower-layer.  Such fragmentation can not only negatively affect
    the latency, but also results in implementation challenges.  For
    example, many authenticator (access point) implementations will drop
-   an EAP session if it hasn't finished after 40 - 50 packets.  This can
+   an EAP session if it hasn't finished after 40-50 packets.  This can
    result in failed authentication even when the two communicating
    parties have the correct credentials for mutual authentication.
    Moreover, there are no mechanisms available to easily recover from
@@ -79,16 +79,13 @@ Table of Contents
    2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
    3.  Experience with Deployments . . . . . . . . . . . . . . . . .   3
    4.  Handling of Large Certificates and Long Certificate Chains  .   4
-     4.1.  Updating Certificates . . . . . . . . . . . . . . . . . .   4
-     4.2.  Updating code . . . . . . . . . . . . . . . . . . . . . .   5
-     4.3.  Guidelines for certificates . . . . . . . . . . . . . . .   6
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
      7.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .   8
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   8
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .   6
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   6
 
 1.  Introduction
 
@@ -105,7 +102,10 @@ Table of Contents
    cannot authenticate each other even though both the sides have valid
    credentials for successful authentication and key derivation.
 
-
+   Unlike TLS authentication on the web, where typically only the server
+   is authenticated with certificates; in EAP-TLS both the client and
+   server are authenticated with certificates.  Therefore, EAP-TLS
+   authentication involves exchange of larger number of messages than
 
 
 
@@ -114,10 +114,6 @@ Sethi & Mattsson         Expires April 17, 2019                 [Page 2]
 Internet-Draft           Certificates in EAP-TLS            October 2018
 
 
-   Unlike TLS authentication on the web, where typically only the server
-   is authenticated with certificates; in EAP-TLS both the client and
-   server are authenticated with certificates.  Therefore, EAP-TLS
-   authentication involves exchange of larger number of messages than
    regular TLS authentication on the web.  Also, from deployment
    experience, the end-entity certificate for clients typically has a
    longer certificate chain to the root-of-trust than the end-entity
@@ -127,15 +123,16 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
    overcoming the implementation challenges induced by large
    certificates and long certificate chains.  It then discusses the
    solutions available to overcome these deployment challenges.  The
-   draft is an early version and aims to foster discussion in the
+   draft is a very early version and aims to foster discussion in the
    working group.
 
 2.  Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in RFC
-   8174 [RFC8174].
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 RFC 2119 [RFC2119] RFC 8174 [RFC8174] when, and only when, they
+   appear in all capitals, as shown here.
 
    In addition, this document frequently uses the following terms as
    they have been defined in [RFC5216]:
@@ -153,15 +150,18 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
 
 3.  Experience with Deployments
 
-   The EAP fragment size in typical deployments can be 1000 - 1500
-   bytes.  Certificate sizes can be large for a number of reasons:
+   The EAP fragment size in typical deployments can be 1000-1500 bytes.
+   Certificate sizes can be large for a number of reasons:
 
    o  Long Subject Alternative Name field.
 
    o  Long Public Key and Signature fields.
 
+   o  Can contain multiple object identifiers (OID) that indicate the
+      permitted uses of the certificate.  For example, Windows requires
+      certain OID's in the certificates for EAP-TLS to work.
 
-
+   o  Multiple user groups in the certificate.
 
 
 
@@ -170,33 +170,19 @@ Sethi & Mattsson         Expires April 17, 2019                 [Page 3]
 Internet-Draft           Certificates in EAP-TLS            October 2018
 
 
-   o  Can contain multiple object identifiers (OID) that indicate the
-      permitted uses of the certificate.  For example, Windows requires
-      certain OID's in the certificates for EAP-TLS to work.
-
-   o  Multiple user groups in the certificate.
-
-   The certificate chain can typically include 2 - 6 certificates to the
+   The certificate chain can typically include 2-6 certificates to the
    root-of-trust.
 
-   Most common access point implementations drop EAP sessions that don't
-   complete within 50 round trips.  This means that if the chain is
-   larger than ~ 60 kB, EAP-TLS authentication cannot complete
+   Most common access points implementations drop EAP sessions that
+   don't complete within 50 round trips.  This means that if the chain
+   is larger than ~ 60 kB, EAP-TLS authentication cannot complete
    successfully in most deployments.
 
 4.  Handling of Large Certificates and Long Certificate Chains
 
    This section discusses some possible alternatives for overcoming the
    challenge of large certificates and long certificate chains in EAP-
-   TLS authentication.  In Section 4.1 we look at recommendations that
-   require an update of the certificates that are used for EAP-TLS
-   authentication without requiring changes to the existing code base.
-   In Section 4.2 we look at recommendations that rely on updates to the
-   EAP-TLS implementations which can be deployed with existing
-   certificates.  Finally, in Section 4.3, we provide some guidelines
-   when issuing certificates for use with EAP-TLS.
-
-4.1.  Updating Certificates
+   TLS authentication.
 
    Many IETF protocols now use elliptic curve cryptography (ECC)
    [RFC6090] for the underlying cryptographic operations.  The use of
@@ -209,33 +195,18 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
    (EdDSA) [RFC8032].  Using certificates that use ECC can reduce the
    number of messages in EAP-TLS authentication which can alleviate the
    problem of authenticators dropping an EAP session because of too many
-   packets.  TLS 1.3 [RFC8446] requires implementations to support ECC.
-   New cipher suites that use ECC are also specified for TLS 1.2
-   [RFC5289].  Using ECC based cipher suites with existing code can
-   significantly reduce the number of messages in a single EAP session.
-
-
-
-
-
-
-
-
-Sethi & Mattsson         Expires April 17, 2019                 [Page 4]
-
-Internet-Draft           Certificates in EAP-TLS            October 2018
-
-
-4.2.  Updating code
+   packets.  TLS 1.3 [I-D.ietf-tls-tls13] requires implementations to
+   support ECC.  New cipher suites that use ECC are also specified for
+   TLS 1.2 [RFC5289].  Using the newer TLS version or ECC based cipher
+   suites for older TLS versions can reduce the number of messages in an
+   EAP session.
 
    TLS allows endpoints to reduce the sizes of Certificate messages by
    omitting certificates that the other endpoint is known to possess.
-   When using TLS 1.3, all certificates that specify a trust anchor
-   known by the other endpoint may be omitted.  When using TLS 1.2 or
-   earlier, only the self-signed certificate that specifies the root
-   certificate authority may be omitted.  Therefore, updating TLS
-   implementations to version 1.3 can help to significantly reduce the
-   number of messages exchanged for EAP-TLS authentication.
+   When using TLS 1.3, all certificates that specifies a trust anchor
+   may be omitted.  When using TLS 1.2 or earlier, only the self-signed
+   certificate that specifies the root certificate authority may be
+   omitted.
 
    The TLS Cached Information Extension [RFC7924] specifies an extension
    where a server can exclude transmission of certificate information
@@ -247,23 +218,25 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
    This would allow the client to indicate that it has cached the
    certificate.  The client would also include a fingerprint of the
    server certificate chain.  If the server's certificate has not
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 4]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
+
+
    changed, then the server does not need to send its certificate and
    the corresponding certificate chain again.  In case information has
    changed, which can be seen from the fingerprint provided by the
    client, the certificate payload is transmitted to the client to allow
    the client to update the cache.  The extension however necessitates a
-   successful full handshake before any caching.  This extension can be
-   useful when, for example, when a successful authentication between an
-   EAP peer and EAP server has occurred in the home network.  If
-   authenticators in a roaming network are more strict at dropping long
-   EAP sessions, an EAP peer can use the Cached Information Extension to
-   reduce the total number of messages.
-
-   However, if all authenticators drop the EAP session for a given EAP
-   peer and EAP server combination, a successful full handshake is not
-   possible.  An option in such a scenario would be to cache validated
-   certificate chains even if the EAP-TLS exchange fails, but this is
-   currently not allowed according to [RFC7924].
+   successful full handshake before any caching.  Since authenticator
+   (access point) implementations drop an EAP session that does not
+   complete within 40-50 packets, a successful full handshake is not
+   possible.  One option would be to cache validated certificate chains
+   even if the EAP-TLS exchange fails, but this is currently not allowed
+   according to [RFC7924].
 
    The TLS working group is also working on an extension for TLS 1.3
    [I-D.ietf-tls-certificate-compression] that allows compression of
@@ -274,26 +247,8 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
    including this extension in the CertificateRequest message.  While
    such an extension can alleviate the problem of excessive
    fragmentation in EAP-TLS, it can only be used with TLS version 1.3
-
-
-
-Sethi & Mattsson         Expires April 17, 2019                 [Page 5]
-
-Internet-Draft           Certificates in EAP-TLS            October 2018
-
-
-   and higher.  Deployments that rely on older versions of TLS cannot
-   benefit from this extension.
-
-4.3.  Guidelines for certificates
-
-   This section provides some recommendations for certificates used for
-   EAP-TLS authentication.  Unlike TLS authentication on the web, EAP-
-   TLS messages are often carried over the link-layer
-
-   o  Reasonable number of OIDs
-
-   o  ...
+   and higher.  Deployments that already have issued certificates and
+   rely on older versions of TLS cannot benefit from this extension.
 
 5.  IANA Considerations
 
@@ -307,6 +262,11 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
 
 7.1.  Normative References
 
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
    [RFC5216]  Simon, D., Aboba, B., and R. Hurst, "The EAP-TLS
               Authentication Protocol", RFC 5216, DOI 10.17487/RFC5216,
               March 2008, <https://www.rfc-editor.org/info/rfc5216>.
@@ -315,6 +275,13 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 5]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
+
+
 7.2.  Informative References
 
    [I-D.ietf-tls-certificate-compression]
@@ -322,21 +289,15 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
               Compression", draft-ietf-tls-certificate-compression-04
               (work in progress), October 2018.
 
+   [I-D.ietf-tls-tls13]
+              Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", draft-ietf-tls-tls13-28 (work in progress),
+              March 2018.
+
    [IEEE-802.1X]
               Institute of Electrical and Electronics Engineers, "Local
               and Metropolitan Area Networks: Port-Based Network Access
               Control", IEEE Standard 802.1X-2004. , December 2004.
-
-
-
-
-
-
-
-Sethi & Mattsson         Expires April 17, 2019                 [Page 6]
-
-Internet-Draft           Certificates in EAP-TLS            October 2018
-
 
    [RFC5289]  Rescorla, E., "TLS Elliptic Curve Cipher Suites with SHA-
               256/384 and AES Galois Counter Mode (GCM)", RFC 5289,
@@ -358,9 +319,48 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
               DOI 10.17487/RFC8032, January 2017,
               <https://www.rfc-editor.org/info/rfc8032>.
 
-   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
-              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
-              <https://www.rfc-editor.org/info/rfc8446>.
+Acknowledgements
+
+   This draft is a result of several useful discussions with Alan DeKok,
+   Bernard Aboba, and Jari Arkko.
+
+Authors' Addresses
+
+
+
+
+
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 6]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
+
+
+   Mohit Sethi
+   Ericsson
+   Jorvas  02420
+   Finland
+
+   Email: mohit@piuha.net
+
+
+   John Mattsson
+   Ericsson
+   Kista
+   Sweden
+
+   Email: john.mattsson@ericsson.com
+
+
+
+
+
+
+
+
+
 
 
 
@@ -390,59 +390,3 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
 
 
 Sethi & Mattsson         Expires April 17, 2019                 [Page 7]
-
-Internet-Draft           Certificates in EAP-TLS            October 2018
-
-
-Acknowledgements
-
-   This draft is a result of several useful discussions with Alan DeKok,
-   Bernard Aboba, Jari Arkko, Darshak Thakore and Hannes Tschofening.
-
-Authors' Addresses
-
-   Mohit Sethi
-   Ericsson
-   Jorvas  02420
-   Finland
-
-   EMail: mohit@piuha.net
-
-
-   John Mattsson
-   Ericsson
-   Kista
-   Sweden
-
-   EMail: john.mattsson@ericsson.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Sethi & Mattsson         Expires April 17, 2019                 [Page 8]
