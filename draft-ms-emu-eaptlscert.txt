@@ -134,9 +134,8 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in BCP
-   14 RFC 2119 [RFC2119] RFC 8174 [RFC8174] when, and only when, they
-   appear in all capitals, as shown here.
+   "OPTIONAL" in this document are to be interpreted as described in RFC
+   8174 [RFC8174].
 
    In addition, this document frequently uses the following terms as
    they have been defined in [RFC5216]:
@@ -160,6 +159,7 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
    o  Long Subject Alternative Name field.
 
    o  Long Public Key and Signature fields.
+
 
 
 
@@ -209,11 +209,11 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
    (EdDSA) [RFC8032].  Using certificates that use ECC can reduce the
    number of messages in EAP-TLS authentication which can alleviate the
    problem of authenticators dropping an EAP session because of too many
-   packets.  TLS 1.3 [I-D.ietf-tls-tls13] requires implementations to
-   support ECC.  New cipher suites that use ECC are also specified for
-   TLS 1.2 [RFC5289].  Using ECC based cipher suites with existing code
-   can significantly reduce the number of messages in a single EAP
-   session.
+   packets.  TLS 1.3 [RFC8446] requires implementations to support ECC.
+   New cipher suites that use ECC are also specified for TLS 1.2
+   [RFC5289].  Using ECC based cipher suites with existing code can
+   significantly reduce the number of messages in a single EAP session.
+
 
 
 
@@ -307,11 +307,6 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
 
 7.1.  Normative References
 
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
-
    [RFC5216]  Simon, D., Aboba, B., and R. Hurst, "The EAP-TLS
               Authentication Protocol", RFC 5216, DOI 10.17487/RFC5216,
               March 2008, <https://www.rfc-editor.org/info/rfc5216>.
@@ -327,6 +322,11 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
               Compression", draft-ietf-tls-certificate-compression-04
               (work in progress), October 2018.
 
+   [IEEE-802.1X]
+              Institute of Electrical and Electronics Engineers, "Local
+              and Metropolitan Area Networks: Port-Based Network Access
+              Control", IEEE Standard 802.1X-2004. , December 2004.
+
 
 
 
@@ -337,16 +337,6 @@ Sethi & Mattsson         Expires April 17, 2019                 [Page 6]
 
 Internet-Draft           Certificates in EAP-TLS            October 2018
 
-
-   [I-D.ietf-tls-tls13]
-              Rescorla, E., "The Transport Layer Security (TLS) Protocol
-              Version 1.3", draft-ietf-tls-tls13-28 (work in progress),
-              March 2018.
-
-   [IEEE-802.1X]
-              Institute of Electrical and Electronics Engineers, "Local
-              and Metropolitan Area Networks: Port-Based Network Access
-              Control", IEEE Standard 802.1X-2004. , December 2004.
 
    [RFC5289]  Rescorla, E., "TLS Elliptic Curve Cipher Suites with SHA-
               256/384 and AES Galois Counter Mode (GCM)", RFC 5289,
@@ -368,6 +358,10 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
               DOI 10.17487/RFC8032, January 2017,
               <https://www.rfc-editor.org/info/rfc8032>.
 
+   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
+              <https://www.rfc-editor.org/info/rfc8446>.
+
 Acknowledgements
 
    This draft is a result of several useful discussions with Alan DeKok,
@@ -383,17 +377,6 @@ Authors' Addresses
    Email: mohit@piuha.net
 
 
-
-
-
-
-
-
-Sethi & Mattsson         Expires April 17, 2019                 [Page 7]
-
-Internet-Draft           Certificates in EAP-TLS            October 2018
-
-
    John Mattsson
    Ericsson
    Kista
@@ -406,43 +389,4 @@ Internet-Draft           Certificates in EAP-TLS            October 2018
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Sethi & Mattsson         Expires April 17, 2019                 [Page 8]
+Sethi & Mattsson         Expires April 17, 2019                 [Page 7]
