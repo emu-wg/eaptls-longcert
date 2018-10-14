@@ -5,7 +5,7 @@
 Internet Engineering Task Force                                 M. Sethi
 Internet-Draft                                               J. Mattsson
 Intended status: Informational                                  Ericsson
-Expires: February 7, 2019                                 August 6, 2018
+Expires: April 17, 2019                                 October 14, 2018
 
 
    Handling Large Certificates and Long Certificate Chains in EAP-TLS
@@ -47,15 +47,15 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on February 7, 2019.
+   This Internet-Draft will expire on April 17, 2019.
 
 
 
 
 
-Sethi & Mattsson        Expires February 7, 2019                [Page 1]
+Sethi & Mattsson         Expires April 17, 2019                 [Page 1]
 
-Internet-Draft           Certificates in EAP-TLS             August 2018
+Internet-Draft           Certificates in EAP-TLS            October 2018
 
 
 Copyright Notice
@@ -79,13 +79,16 @@ Table of Contents
    2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
    3.  Experience with Deployments . . . . . . . . . . . . . . . . .   3
    4.  Handling of Large Certificates and Long Certificate Chains  .   4
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     4.1.  Updating Certificates . . . . . . . . . . . . . . . . . .   4
+     4.2.  Updating code . . . . . . . . . . . . . . . . . . . . . .   5
+     4.3.  Guidelines for certificates . . . . . . . . . . . . . . .   6
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
      7.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .   6
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   6
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .   7
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   7
 
 1.  Introduction
 
@@ -102,18 +105,19 @@ Table of Contents
    cannot authenticate each other even though both the sides have valid
    credentials for successful authentication and key derivation.
 
+
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 2]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
+
+
    Unlike TLS authentication on the web, where typically only the server
    is authenticated with certificates; in EAP-TLS both the client and
    server are authenticated with certificates.  Therefore, EAP-TLS
    authentication involves exchange of larger number of messages than
-
-
-
-Sethi & Mattsson        Expires February 7, 2019                [Page 2]
-
-Internet-Draft           Certificates in EAP-TLS             August 2018
-
-
    regular TLS authentication on the web.  Also, from deployment
    experience, the end-entity certificate for clients typically has a
    longer certificate chain to the root-of-trust than the end-entity
@@ -157,32 +161,42 @@ Internet-Draft           Certificates in EAP-TLS             August 2018
 
    o  Long Public Key and Signature fields.
 
+
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 3]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
+
+
    o  Can contain multiple object identifiers (OID) that indicate the
       permitted uses of the certificate.  For example, Windows requires
       certain OID's in the certificates for EAP-TLS to work.
 
    o  Multiple user groups in the certificate.
 
-
-
-Sethi & Mattsson        Expires February 7, 2019                [Page 3]
-
-Internet-Draft           Certificates in EAP-TLS             August 2018
-
-
    The certificate chain can typically include 2-6 certificates to the
    root-of-trust.
 
-   Most common access points implementations drop EAP sessions that
-   don't complete within 50 round trips.  This means that if the chain
-   is larger than ~ 60 kB, EAP-TLS authentication cannot complete
+   Most common access point implementations drop EAP sessions that don't
+   complete within 50 round trips.  This means that if the chain is
+   larger than ~ 60 kB, EAP-TLS authentication cannot complete
    successfully in most deployments.
 
 4.  Handling of Large Certificates and Long Certificate Chains
 
    This section discusses some possible alternatives for overcoming the
    challenge of large certificates and long certificate chains in EAP-
-   TLS authentication.
+   TLS authentication.  In Section 4.1 we look at recommendations that
+   require an update of the certificates that are used for EAP-TLS
+   authentication without requiring changes to the existing code base.
+   In Section 4.2 we look at recommendations that rely on updates to the
+   EAP-TLS implementations which can be deployed with existing
+   certificates.  Finally, in Section 4.3, we provide some guidelines
+   when issuing certificates for use with EAP-TLS.
+
+4.1.  Updating Certificates
 
    Many IETF protocols now use elliptic curve cryptography (ECC)
    [RFC6090] for the underlying cryptographic operations.  The use of
@@ -197,16 +211,31 @@ Internet-Draft           Certificates in EAP-TLS             August 2018
    problem of authenticators dropping an EAP session because of too many
    packets.  TLS 1.3 [I-D.ietf-tls-tls13] requires implementations to
    support ECC.  New cipher suites that use ECC are also specified for
-   TLS 1.2 [RFC5289].  Using the newer TLS version or ECC based cipher
-   suites for older TLS versions can reduce the number of messages in an
-   EAP session.
+   TLS 1.2 [RFC5289].  Using ECC based cipher suites with existing code
+   can significantly reduce the number of messages in a single EAP
+   session.
+
+
+
+
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 4]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
+
+
+4.2.  Updating code
 
    TLS allows endpoints to reduce the sizes of Certificate messages by
    omitting certificates that the other endpoint is known to possess.
-   When using TLS 1.3, all certificates that specifies a trust anchor
-   may be omitted.  When using TLS 1.2 or earlier, only the self-signed
-   certificate that specifies the root certificate authority may be
-   omitted.
+   When using TLS 1.3, all certificates that specify a trust anchor
+   known by the other endpoint may be omitted.  When using TLS 1.2 or
+   earlier, only the self-signed certificate that specifies the root
+   certificate authority may be omitted.  Therefore, updating TLS
+   implementations to version 1.3 can help to significantly reduce the
+   number of messages exchanged for EAP-TLS authentication.
 
    The TLS Cached Information Extension [RFC7924] specifies an extension
    where a server can exclude transmission of certificate information
@@ -218,25 +247,23 @@ Internet-Draft           Certificates in EAP-TLS             August 2018
    This would allow the client to indicate that it has cached the
    certificate.  The client would also include a fingerprint of the
    server certificate chain.  If the server's certificate has not
-
-
-
-Sethi & Mattsson        Expires February 7, 2019                [Page 4]
-
-Internet-Draft           Certificates in EAP-TLS             August 2018
-
-
    changed, then the server does not need to send its certificate and
    the corresponding certificate chain again.  In case information has
    changed, which can be seen from the fingerprint provided by the
    client, the certificate payload is transmitted to the client to allow
    the client to update the cache.  The extension however necessitates a
-   successful full handshake before any caching.  Since authenticator
-   (access point) implementations drop an EAP session that does not
-   complete within 40-50 packets, a successful full handshake is not
-   possible.  One option would be to cache validated certificate chains
-   even if the EAP-TLS exchange fails, but this is currently not allowed
-   according to [RFC7924].
+   successful full handshake before any caching.  This extension can be
+   useful when, for example, when a successful authentication between an
+   EAP peer and EAP server has occurred in the home network.  If
+   authenticators in a roaming network are more strict at dropping long
+   EAP sessions, an EAP peer can use the Cached Information Extension to
+   reduce the total number of messages.
+
+   However, if all authenticators drop the EAP session for a given EAP
+   peer and EAP server combination, a successful full handshake is not
+   possible.  An option in such a scenario would be to cache validated
+   certificate chains even if the EAP-TLS exchange fails, but this is
+   currently not allowed according to [RFC7924].
 
    The TLS working group is also working on an extension for TLS 1.3
    [I-D.ietf-tls-certificate-compression] that allows compression of
@@ -247,8 +274,26 @@ Internet-Draft           Certificates in EAP-TLS             August 2018
    including this extension in the CertificateRequest message.  While
    such an extension can alleviate the problem of excessive
    fragmentation in EAP-TLS, it can only be used with TLS version 1.3
-   and higher.  Deployments that already have issued certificates and
-   rely on older versions of TLS cannot benefit from this extension.
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 5]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
+
+
+   and higher.  Deployments that rely on older versions of TLS cannot
+   benefit from this extension.
+
+4.3.  Guidelines for certificates
+
+   This section provides some recommendations for certificates used for
+   EAP-TLS authentication.  Unlike TLS authentication on the web, EAP-
+   TLS messages are often carried over the link-layer
+
+   o  Reasonable number of OIDs
+
+   o  ...
 
 5.  IANA Considerations
 
@@ -275,19 +320,23 @@ Internet-Draft           Certificates in EAP-TLS             August 2018
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-
-
-Sethi & Mattsson        Expires February 7, 2019                [Page 5]
-
-Internet-Draft           Certificates in EAP-TLS             August 2018
-
-
 7.2.  Informative References
 
    [I-D.ietf-tls-certificate-compression]
-              Ghedini, A. and V. Vasiliev, "Transport Layer Security
-              (TLS) Certificate Compression", draft-ietf-tls-
-              certificate-compression-03 (work in progress), April 2018.
+              Ghedini, A. and V. Vasiliev, "TLS Certificate
+              Compression", draft-ietf-tls-certificate-compression-04
+              (work in progress), October 2018.
+
+
+
+
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 6]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
+
 
    [I-D.ietf-tls-tls13]
               Rescorla, E., "The Transport Layer Security (TLS) Protocol
@@ -326,24 +375,23 @@ Acknowledgements
 
 Authors' Addresses
 
-
-
-
-
-
-
-
-Sethi & Mattsson        Expires February 7, 2019                [Page 6]
-
-Internet-Draft           Certificates in EAP-TLS             August 2018
-
-
    Mohit Sethi
    Ericsson
    Jorvas  02420
    Finland
 
    Email: mohit@piuha.net
+
+
+
+
+
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 7]
+
+Internet-Draft           Certificates in EAP-TLS            October 2018
 
 
    John Mattsson
@@ -389,4 +437,12 @@ Internet-Draft           Certificates in EAP-TLS             August 2018
 
 
 
-Sethi & Mattsson        Expires February 7, 2019                [Page 7]
+
+
+
+
+
+
+
+
+Sethi & Mattsson         Expires April 17, 2019                 [Page 8]
