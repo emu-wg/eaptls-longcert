@@ -80,7 +80,7 @@ Table of Contents
    3.  Experience with Deployments . . . . . . . . . . . . . . . . .   3
    4.  Handling of Large Certificates and Long Certificate Chains  .   4
      4.1.  Updating Certificates . . . . . . . . . . . . . . . . . .   4
-     4.2.  Updating code . . . . . . . . . . . . . . . . . . . . . .   5
+     4.2.  Updating Code . . . . . . . . . . . . . . . . . . . . . .   5
      4.3.  Guidelines for certificates . . . . . . . . . . . . . . .   6
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
    6.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
@@ -226,7 +226,7 @@ Sethi & Mattsson         Expires April 18, 2019                 [Page 4]
 Internet-Draft           Certificates in EAP-TLS            October 2018
 
 
-4.2.  Updating code
+4.2.  Updating Code
 
    TLS allows endpoints to reduce the sizes of Certificate messages by
    omitting certificates that the other endpoint is known to possess.

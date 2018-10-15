@@ -286,7 +286,7 @@ ul.toc li {
 <link href="#rfc.section.3" rel="Chapter" title="3 Experience with Deployments">
 <link href="#rfc.section.4" rel="Chapter" title="4 Handling of Large Certificates and Long Certificate Chains">
 <link href="#rfc.section.4.1" rel="Chapter" title="4.1 Updating Certificates">
-<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Updating code">
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Updating Code">
 <link href="#rfc.section.4.3" rel="Chapter" title="4.3 Guidelines for certificates">
 <link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
 <link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
@@ -363,7 +363,7 @@ ul.toc li {
 </li>
 <ul><li>4.1.   <a href="#rfc.section.4.1">Updating Certificates</a>
 </li>
-<li>4.2.   <a href="#rfc.section.4.2">Updating code</a>
+<li>4.2.   <a href="#rfc.section.4.2">Updating Code</a>
 </li>
 <li>4.3.   <a href="#rfc.section.4.3">Guidelines for certificates</a>
 </li>
@@ -427,7 +427,7 @@ ul.toc li {
 </h1>
 <p id="rfc.section.4.1.p.1">Many IETF protocols now use elliptic curve cryptography (ECC) <a href="#RFC6090" class="xref">[RFC6090]</a> for the underlying cryptographic operations. The use of ECC can reduce the size of certificates and signatures. For example, the size of public keys with traditional RSA is about 384 bytes, while the size of public keys with ECC is only 32 bytes. Similarly, the size of digital signatures with traditional RSA is 384 bytes, while the size is only 64 bytes with elliptic curve digital signature algorithm (ECDSA) and Edwards-curve digital signature algorithm (EdDSA) <a href="#RFC8032" class="xref">[RFC8032]</a>. Using certificates that use ECC can reduce the number of messages in EAP-TLS authentication which can alleviate the problem of authenticators dropping an EAP session because of too many packets. TLS 1.3 <a href="#RFC8446" class="xref">[RFC8446]</a> requires implementations to support ECC. New cipher suites that use ECC are also specified for TLS 1.2 <a href="#RFC5289" class="xref">[RFC5289]</a>. Using ECC based cipher suites with existing code can significantly reduce the number of messages in a single EAP session.  </p>
 <h1 id="rfc.section.4.2">
-<a href="#rfc.section.4.2">4.2.</a> <a href="#update-code" id="update-code">Updating code</a>
+<a href="#rfc.section.4.2">4.2.</a> <a href="#update-code" id="update-code">Updating Code</a>
 </h1>
 <p id="rfc.section.4.2.p.1">TLS allows endpoints to reduce the sizes of Certificate messages by omitting certificates that the other endpoint is known to possess. When using TLS 1.3, all certificates that specify a trust anchor known by the other endpoint may be omitted. When using TLS 1.2 or earlier, only the self-signed certificate that specifies the root certificate authority may be omitted. Therefore, updating TLS implementations to version 1.3 can help to significantly reduce the number of messages exchanged for EAP-TLS authentication.  </p>
 <p id="rfc.section.4.2.p.2">The TLS Cached Information Extension <a href="#RFC7924" class="xref">[RFC7924]</a> specifies an extension where a server can exclude transmission of certificate information cached in an earlier TLS handshake. The client and the server would first execute the full TLS handshake. The client would then cache the certificate provided by the server. When the TLS client later connects to the same TLS server without using session resumption, it can attach the "cached_info" extension to the ClientHello message. This would allow the client to indicate that it has cached the certificate. The client would also include a fingerprint of the server certificate chain. If the server's certificate has not changed, then the server does not need to send its certificate and the corresponding certificate chain again. In case information has changed, which can be seen from the fingerprint provided by the client, the certificate payload is transmitted to the client to allow the client to update the cache. The extension however necessitates a successful full handshake before any caching. This extension can be useful when, for example, when a successful authentication between an EAP peer and EAP server has occurred in the home network. If authenticators in a roaming network are more strict at dropping long EAP sessions, an EAP peer can use the Cached Information Extension to reduce the total number of messages.  </p>
