@@ -11,7 +11,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <rfc category="info" ipr="trust200902" docName="draft-ms-emu-eaptlscert-latest">
 
 <front>
-	 <!-- The abbreviated title is used in the page header - it is only necessary if the 
+	 <!-- The abbreviated title is used in the page header - it is only necessary if the
 				full title is longer than 39 characters -->
 
 	 <title abbrev="Certificates in EAP-TLS">Handling Large Certificates and Long Certificate Chains in EAP-TLS</title>
@@ -25,7 +25,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			<organization>Ericsson</organization>
 			<address>
 				<postal>
-					<street></street>          
+					<street></street>
 					<city>Jorvas</city>
 					<code>02420</code>
 					<country>Finland</country>
@@ -37,7 +37,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			<organization>Ericsson</organization>
 			<address>
 				<postal>
-					<street></street>          
+					<street></street>
 					<city>Kista</city>
 					<code></code>
 					<country>Sweden</country>
@@ -51,7 +51,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
 	 <abstract>
 		 <t>
-			 Extensible Authentication Protocol (EAP) provides support for multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) provides means for key derivation and strong mutual authentication with certificates. However, certificates can often be relatively large in size. The certificate chain to the root-of-trust can also be long when multiple intermediate Certification Authorities (CAs) are involved. This implies that EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower-layer. Such fragmentation can not only negatively affect the latency, but also results in implementation challenges. For example, many authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40 - 50 packets. This can result in failed authentication even when the two communicating parties have the correct credentials for mutual authentication. Moreover, there are no mechanisms available to easily recover from such situations. This memo looks at the problem in detail and discusses the solutions available to overcome these deployment challenges. 
+			 Extensible Authentication Protocol (EAP) provides support for multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) provides means for key derivation and strong mutual authentication with certificates. However, certificates can often be relatively large in size. The certificate chain to the root-of-trust can also be long when multiple intermediate Certification Authorities (CAs) are involved. This implies that EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower-layer. Such fragmentation can not only negatively affect the latency, but also results in implementation challenges. For example, many authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40 - 50 packets. This can result in failed authentication even when the two communicating parties have the correct credentials for mutual authentication. Moreover, there are no mechanisms available to easily recover from such situations. This memo looks at the problem in detail and discusses the solutions available to overcome these deployment challenges.
 		 </t>
 	 </abstract>
  </front>
@@ -67,7 +67,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		</t>
 
 		<t>
-				This memo looks at related work and potential tools available for overcoming the implementation challenges induced by large certificates and long certificate chains. It then discusses the solutions available to overcome these deployment challenges. The draft is an early version and aims to foster discussion in the working group. 
+				This memo looks at related work and potential tools available for overcoming the implementation challenges induced by large certificates and long certificate chains. It then discusses the solutions available to overcome these deployment challenges. The draft is an early version and aims to foster discussion in the working group.
 		</t>
 	 </section>
 
@@ -80,7 +80,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 				In addition, this document frequently uses the following terms as they have been defined in <xref target="RFC5216"/>:
 				<list style="hanging" hangIndent="6">
 					<t hangText="authenticator">
-						The entity initiating EAP authentication. 
+						The entity initiating EAP authentication.
 					</t>
 
 					<t hangText="peer">
@@ -97,7 +97,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 	 <section title="Experience with Deployments">
 		<t>
 			The EAP fragment size in typical deployments can be 1000 - 1500 bytes. Certificate sizes can be large for a number of reasons:
-			<list style="symbols"> 
+			<list style="symbols">
 				<t>Long Subject Alternative Name field.</t>
 				<t>Long Public Key and Signature fields.</t>
 				<t>Can contain multiple object identifiers (OID) that indicate the permitted uses of the certificate. For example, Windows requires certain OID's in the certificates for EAP-TLS to work.</t>
@@ -105,10 +105,10 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			</list>
 		</t>
 		<t>
-			The certificate chain can typically include 2 - 6 certificates to the root-of-trust. 
+			The certificate chain can typically include 2 - 6 certificates to the root-of-trust.
 		</t>
 		<t>
-			Most common access point implementations drop EAP sessions that don't complete within 50 round trips. This means that if the chain is larger than ~ 60 kB, EAP-TLS authentication cannot complete successfully in most deployments. 
+			Most common access point implementations drop EAP sessions that don't complete within 50 round trips. This means that if the chain is larger than ~ 60 kB, EAP-TLS authentication cannot complete successfully in most deployments.
 		</t>
 	 </section>
 
@@ -161,11 +161,9 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
  <back>
 	 <references title="Normative References">
-	 
 	 <?rfc include='reference.RFC.5216'?> <!-- EAP-TLS -->
-	 <?rfc include='reference.RFC.8174'?> <!-- Terminology -->  
+	 <?rfc include='reference.RFC.8174'?> <!-- Terminology -->
 	 </references>
-
 	 <references title="Informative References">
 		 <?rfc include='reference.RFC.5289'?> <!-- TLS 1.2 ciphersuites -->
 		 <?rfc include='reference.RFC.6090'?> <!-- ECC -->
