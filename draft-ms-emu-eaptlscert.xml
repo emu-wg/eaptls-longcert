@@ -164,6 +164,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 	 <?rfc include='reference.RFC.2119'?> <!-- Terminology -->
 	 <?rfc include='reference.RFC.5216'?> <!-- EAP-TLS -->
 	 <?rfc include='reference.RFC.8174'?> <!-- Terminology -->
+	 <?rfc include='reference.I-D.ietf-emu-eap-tls13'?>
 	 </references>
 	 <references title="Informative References">
 		 <?rfc include='reference.RFC.5289'?> <!-- TLS 1.2 ciphersuites -->
