@@ -302,7 +302,7 @@ ul.toc li {
 
   <meta name="dct.creator" content="Sethi, M. and J. Mattsson" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ms-emu-eaptlscert-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-15" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-17" />
   <meta name="dct.abstract" content="Extensible Authentication Protocol (EAP) provides support for multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) provides means for key derivation and strong mutual authentication with certificates. However, certificates can often be relatively large in size. The certificate chain to the root-of-trust can also be long when multiple intermediate Certification Authorities (CAs) are involved. This implies that EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower-layer. Such fragmentation can not only negatively affect the latency, but also results in implementation challenges. For example, many authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40 - 50 packets. This can result in failed authentication even when the two communicating parties have the correct credentials for mutual authentication. Moreover, there are no mechanisms available to easily recover from such situations. This memo looks at the problem in detail and discusses the solutions available to overcome these deployment challenges.  " />
   <meta name="description" content="Extensible Authentication Protocol (EAP) provides support for multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) provides means for key derivation and strong mutual authentication with certificates. However, certificates can often be relatively large in size. The certificate chain to the root-of-trust can also be long when multiple intermediate Certification Authorities (CAs) are involved. This implies that EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower-layer. Such fragmentation can not only negatively affect the latency, but also results in implementation challenges. For example, many authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40 - 50 packets. This can result in failed authentication even when the two communicating parties have the correct credentials for mutual authentication. Moreover, there are no mechanisms available to easily recover from such situations. This memo looks at the problem in detail and discusses the solutions available to overcome these deployment challenges.  " />
 
@@ -326,8 +326,8 @@ ul.toc li {
 <td class="right">Ericsson</td>
 </tr>
 <tr>
-<td class="left">Expires: April 18, 2019</td>
-<td class="right">October 15, 2018</td>
+<td class="left">Expires: June 20, 2019</td>
+<td class="right">December 17, 2018</td>
 </tr>
 
     	
@@ -343,7 +343,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on April 18, 2019.</p>
+<p>This Internet-Draft will expire on June 20, 2019.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -392,7 +392,7 @@ ul.toc li {
 <p id="rfc.section.1.p.3">This memo looks at related work and potential tools available for overcoming the implementation challenges induced by large certificates and long certificate chains. It then discusses the solutions available to overcome these deployment challenges. The draft is an early version and aims to foster discussion in the working group.  </p>
 <h1 id="rfc.section.2">
 <a href="#rfc.section.2">2.</a> Terminology</h1>
-<p id="rfc.section.2.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC8174" class="xref">RFC 8174</a>.  </p>
+<p id="rfc.section.2.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <a href="#RFC2119" class="xref">[RFC2119]</a> <a href="#RFC8174" class="xref">[RFC8174]</a> when, and only when, they appear in all capitals, as shown here.  </p>
 <p id="rfc.section.2.p.2">In addition, this document frequently uses the following terms as they have been defined in <a href="#RFC5216" class="xref">[RFC5216]</a>: </p>
 
 <dl>
@@ -425,7 +425,7 @@ ul.toc li {
 <h1 id="rfc.section.4.1">
 <a href="#rfc.section.4.1">4.1.</a> <a href="#update-certs" id="update-certs">Updating Certificates</a>
 </h1>
-<p id="rfc.section.4.1.p.1">Many IETF protocols now use elliptic curve cryptography (ECC) <a href="#RFC6090" class="xref">[RFC6090]</a> for the underlying cryptographic operations. The use of ECC can reduce the size of certificates and signatures. For example, the size of public keys with traditional RSA is about 384 bytes, while the size of public keys with ECC is only 32 bytes. Similarly, the size of digital signatures with traditional RSA is 384 bytes, while the size is only 64 bytes with elliptic curve digital signature algorithm (ECDSA) and Edwards-curve digital signature algorithm (EdDSA) <a href="#RFC8032" class="xref">[RFC8032]</a>. Using certificates that use ECC can reduce the number of messages in EAP-TLS authentication which can alleviate the problem of authenticators dropping an EAP session because of too many packets. TLS 1.3 <a href="#RFC8446" class="xref">[RFC8446]</a> requires implementations to support ECC. New cipher suites that use ECC are also specified for TLS 1.2 <a href="#RFC5289" class="xref">[RFC5289]</a>. Using ECC based cipher suites with existing code can significantly reduce the number of messages in a single EAP session.  </p>
+<p id="rfc.section.4.1.p.1">Many IETF protocols now use elliptic curve cryptography (ECC) <a href="#RFC6090" class="xref">[RFC6090]</a> for the underlying cryptographic operations. The use of ECC can reduce the size of certificates and signatures. For example, the size of public keys with traditional RSA is about 384 bytes, while the size of public keys with ECC is only 32-64 bytes. Similarly, the size of digital signatures with traditional RSA is 384 bytes, while the size is only 64 bytes with elliptic curve digital signature algorithm (ECDSA) and Edwards-curve digital signature algorithm (EdDSA) <a href="#RFC8032" class="xref">[RFC8032]</a>. Using certificates that use ECC can reduce the number of messages in EAP-TLS authentication which can alleviate the problem of authenticators dropping an EAP session because of too many packets. TLS 1.3 <a href="#RFC8446" class="xref">[RFC8446]</a> requires implementations to support ECC. New cipher suites that use ECC are also specified for TLS 1.2 <a href="#RFC5289" class="xref">[RFC5289]</a>. Using ECC based cipher suites with existing code can significantly reduce the number of messages in a single EAP session.  </p>
 <h1 id="rfc.section.4.2">
 <a href="#rfc.section.4.2">4.2.</a> <a href="#update-code" id="update-code">Updating Code</a>
 </h1>
@@ -457,6 +457,16 @@ ul.toc li {
 <h1 id="rfc.references.1">
 <a href="#rfc.references.1">7.1.</a> Normative References</h1>
 <table><tbody>
+<tr>
+<td class="reference"><b id="I-D.ietf-emu-eap-tls13">[I-D.ietf-emu-eap-tls13]</b></td>
+<td class="top">
+<a>Mattsson, J.</a> and <a>M. Sethi</a>, "<a href="https://tools.ietf.org/html/draft-ietf-emu-eap-tls13-03">Using EAP-TLS with TLS 1.3</a>", Internet-Draft draft-ietf-emu-eap-tls13-03, November 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
 <tr>
 <td class="reference"><b id="RFC5216">[RFC5216]</b></td>
 <td class="top">
@@ -508,7 +518,7 @@ ul.toc li {
 </tr>
 </tbody></table>
 <h1 id="rfc.acknowledgements"><a href="#rfc.acknowledgements">Acknowledgements</a></h1>
-<p id="rfc.section.A.p.1">This draft is a result of several useful discussions with Alan DeKok, Bernard Aboba, Jari Arkko, Darshak Thakore and Hannes Tschofening.</p>
+<p id="rfc.section.A.p.1">This draft is a result of several useful discussions with Alan DeKok, Bernard Aboba, Jari Arkko, Darshak Thakore, and Hannes Tschofening.</p>
 <h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
 <div class="avoidbreak">
   <address class="vcard">
