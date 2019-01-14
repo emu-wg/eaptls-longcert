@@ -159,6 +159,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
  <back>
 	 <references title="Normative References">
 	 <?rfc include='reference.RFC.2119'?> <!-- Terminology -->
+	 <?rfc include='reference.RFC.3748'?> <!-- EAP -->
 	 <?rfc include='reference.RFC.5216'?> <!-- EAP-TLS -->
 	 <?rfc include='reference.RFC.8174'?> <!-- Terminology -->
 	 <?rfc include='reference.I-D.ietf-emu-eap-tls13'?>
