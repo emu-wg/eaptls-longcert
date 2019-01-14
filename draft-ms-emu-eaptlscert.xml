@@ -57,19 +57,12 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
  </front>
 
  <middle>
-	 <section title="Introduction">
-		<t>
-			 EAP-TLS is widely deployed and often used for network access authentication of requesting peers. EAP-TLS provides strong mutual authentication with certificates. However, certificates can be large and certificate chains can often be long. This implies that EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower-layer. Such fragmentation can not only negatively affect the latency, but also results in implementation challenges. For example, many authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40-50 packets. This has led to a situation where a client and server cannot authenticate each other even though both the sides have valid credentials for successful authentication and key derivation.
-		</t>
-
-		 <t>
-				Unlike TLS authentication on the web, where typically only the server is authenticated with certificates; in EAP-TLS both the client and server are authenticated with certificates. Therefore, EAP-TLS authentication involves exchange of larger number of messages than regular TLS authentication on the web. Also, from deployment experience, the end-entity certificate for clients typically has a longer certificate chain to the root-of-trust than the end-entity certificate for the server.
-		</t>
-
-		<t>
-				This memo looks at related work and potential tools available for overcoming the implementation challenges induced by large certificates and long certificate chains. It then discusses the solutions available to overcome these deployment challenges. The draft is an early version and aims to foster discussion in the working group.
-		</t>
-	 </section>
+	<section title="Introduction">
+		<t>The Extensible Authentication Protocol (EAP), defined in <xref target="RFC3748"/>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <xref target="RFC5216"/> <xref target="I-D.ietf-emu-eap-tls13"/> relies on TLS <xref target="RFC8446"/> to provide strong mutual authentication with certificates and is widely deployed and often used for network access authentication.</t>
+		<t>TLS certificates are often relatively large, and the certificate chains are often long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticates both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. Therefore, EAP-TLS authentication usually involve significantly more bytes than when TLS is used as part of HTTPS.</t>
+		<t>As the EAP fragment size in typical deployments are just 1000 - 1500 bytes, the EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower layers. Such fragmentation can not only negatively affect the latency, but also results in other challenges. For example, many EAP authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40 - 50 packets. This is a major problem and means that in many situations, the EAP peer cannot perform network access authentication even though both the sides have valid credentials for successful authentication and key derivation.</t>
+		<t>This memo looks at related work and potential tools available for overcoming the deployment challenges induced by large certificates and long certificate chains. It then discusses the solutions available to overcome these challenges.</t>		
+	</section>
 
 	 <section title="Terminology">
 		<t>
