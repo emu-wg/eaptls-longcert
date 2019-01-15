@@ -109,7 +109,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		<t>
 				This section discusses some possible alternatives for overcoming the challenge of large certificates and long certificate chains in EAP-TLS authentication. In <xref target="update-certs"/> we look at recommendations that require an update of the certificates that are used for EAP-TLS authentication without requiring changes to the existing code base. In <xref target="update-code"/> we look at recommendations that rely on updates to the EAP-TLS implementations which can be deployed with existing certificates. Finally, in <xref target="cert-guide"/>, we provide some guidelines when issuing certificates for use with EAP-TLS.
 		</t>
-			<section title="Updating Certificates" anchor="update-certs">
+			<section title="Updating Certificates and Certificate Chains" anchor="update-certs">
 				<t>
 				 Many IETF protocols now use elliptic curve cryptography (ECC) <xref target="RFC6090"/> for the underlying cryptographic operations. The use of ECC can reduce the size of certificates and signatures. For example, the size of public keys with traditional RSA is about 384 bytes, while the size of public keys with ECC is only 32-64 bytes. Similarly, the size of digital signatures with traditional RSA is 384 bytes, while the size is only 64 bytes with elliptic curve digital signature algorithm (ECDSA) and Edwards-curve digital signature algorithm (EdDSA) <xref target="RFC8032"/>. Using certificates that use ECC can reduce the number of messages in EAP-TLS authentication which can alleviate the problem of authenticators dropping an EAP session because of too many packets. TLS 1.3 <xref target="RFC8446"/> requires implementations to support ECC. New cipher suites that use ECC are also specified for TLS 1.2 <xref target="RFC5289"/>. Using ECC based cipher suites with existing code can significantly reduce the number of messages in a single EAP session.
 				</t>
@@ -124,7 +124,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 					</t>
 				</section>
 			</section>
-			<section title="Updating Code" anchor="update-code">
+			<section title="Updating TLS and EAP-TLS Code" anchor="update-code">
 				<t>
 					The TLS Certificate message conveys the sending endpoint's certificate chain. TLS allows endpoints to reduce the sizes of the Certificate messages by omitting certificates that the other endpoint is known to possess. When using TLS 1.3, all certificates that specify a trust anchor known by the other endpoint may be omitted (see Section 4.4.2 of <xref target="RFC8446"/>). When using TLS 1.2 or earlier, only the self-signed certificate that specifies the root certificate authority may be omitted (see Section 7.4.2 of <xref target="RFC5246"/> Therefore, updating TLS implementations to version 1.3 can help to significantly reduce the number of messages exchanged for EAP-TLS authentication. The omitted certificates need to be pre-distributed independently of TLS and the TLS implementation need to be configured to omit the pre-distributed certificates.
 				</t>
