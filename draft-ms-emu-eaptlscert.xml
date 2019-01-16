@@ -89,8 +89,6 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		</t>
 	</section>
 
-	</section>
-
 	<section title="Experience with Deployments">
 		<t>
 		The EAP fragment size in typical deployments can be 1000 - 1500 bytes. Certificate sizes can be large for a number of reasons:
