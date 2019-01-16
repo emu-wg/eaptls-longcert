@@ -114,7 +114,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
 	<section title="Handling of Large Certificates and Long Certificate Chains">
 		<t>
-		This section discusses some possible alternatives for overcoming the challenge of large certificates and long certificate chains in EAP-TLS authentication. In <xref target="update-certs"/> we look at recommendations that require an update of the certificates that are used for EAP-TLS authentication without requiring changes to the existing code base. In <xref target="update-code"/> we look at recommendations that rely on updates to the EAP-TLS implementations which can be deployed with existing certificates. Finally, in <xref target="cert-guide"/>, we provide some guidelines when issuing certificates for use with EAP-TLS.
+		This section discusses some possible alternatives for overcoming the challenge of large certificates and long certificate chains in EAP-TLS authentication. In <xref target="update-certs"/> we look at recommendations that require an update of the certificates or certifcate chains that are used for EAP-TLS authentication without requiring changes to the existing EAP-TLS code base. We also provide some guidelines when issuing certificates for use with EAP-TLS. In <xref target="update-code"/> we look at recommendations that rely on updates to the EAP-TLS implementations which can be deployed with existing certificates. In <xref target="update-APs"/> we shortly discuss the solution to update or reconfigure authenticator which can be deployed without changes to existing certificates or EAP-TLS code.
 		</t>
 		
 		<section title="Updating Certificates and Certificate Chains" anchor="update-certs">
