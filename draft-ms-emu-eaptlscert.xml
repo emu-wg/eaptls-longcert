@@ -74,19 +74,21 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
 		<t>Readers are expected to be familiar with the terms and concepts used in EAP-TLS <xref target="RFC5216"/> and TLS <xref target="RFC8446"/>. In particular, this document frequently uses the following terms as they have been defined in <xref target="RFC5216"/>:
 				<list style="hanging" hangIndent="6">
-					<t hangText="authenticator">
-					The entity initiating EAP authentication.
+					<t hangText="Authenticator">
+					The entity initiating EAP authentication. Typically implemented as part of a network switch or a wireless access point.
 					</t>
 
 					<t hangText="EAP peer">
-					The entity that responds to the authenticator. In  <xref target="IEEE-802.1X"/>, this entity is known as the supplicant.
+					The entity that responds to the authenticator. In <xref target="IEEE-802.1X"/>, this entity is known as the supplicant. In EAP-TLS, the EAP peer implements the TLS client role.
 					</t>
 
 					<t hangText="EAP server">
-					The entity that terminates the EAP authentication method with the peer. In the case where no backend authentication server is used, the EAP server is part of the authenticator. In the case where the authenticator operates in pass-through mode, the EAP server is located on the backend authentication server.
+					The entity that terminates the EAP authentication method with the peer. In the case where no backend authentication server is used, the EAP server is part of the authenticator. In the case where the authenticator operates in pass-through mode, the EAP server is located on the backend authentication server. In EAP-TLS, the EAP server implements the TLS server role.
 					</t>
 				</list>
 		</t>
+	</section>
+
 	</section>
 
 	<section title="Experience with Deployments">
