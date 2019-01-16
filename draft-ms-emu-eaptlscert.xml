@@ -43,7 +43,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
 	<abstract>
 		<t>
-		 EAP-TLS provides strong mutual authentication with certificates and is widely used for network access authentication. Large certificates and long certificate chains combined with authenticators (access points) that drop an EAP session if it hasn't finished after 40 - 50 packets is a major deployment problem and means that in many situations, the EAP peer cannot perform network access authentication even though both the sides have valid credentials for successful authentication and key derivation. This memo looks at the problem in detail and describes the potential solutions available to overcome the deployment challenges induced by large certificates and long certificate chains.
+		 EAP-TLS is widely  deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 packets is a major deployment problem and means that in many situations, the EAP peer cannot perform network access authentication. This memo looks at the this problem in detail and describes the potential solutions available to overcome the deployment challenges induced by large certificates and long certificate chains.
 		</t>
 	</abstract>
 </front>
