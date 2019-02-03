@@ -11,7 +11,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <rfc category="info" ipr="trust200902" docName="draft-ms-emu-eaptlscert-latest">
 
 <front>
-	<title abbrev="Certificates in EAP-TLS">Handling Large Certificates and Long Certificate Chains in TLS-based EAP Methods</title>
+	<title abbrev="Certificates in TLS-based EAP Methods">Handling Large Certificates and Long Certificate Chains in TLS-based EAP Methods</title>
 	
 		<author initials="M" surname="Sethi" fullname="Mohit Sethi">
 			<organization>Ericsson</organization>
