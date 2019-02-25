@@ -51,7 +51,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <middle>
 	<section title="Introduction">
 		<t>
-		The Extensible Authentication Protocol (EAP), defined in <xref target="RFC3748"/>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <xref target="RFC5216"/> <xref target="I-D.ietf-emu-eap-tls13"/> relies on TLS <xref target="RFC8446"/> to provide strong mutual authentication with certificates and is widely deployed and often used for network access authentication.
+		The Extensible Authentication Protocol (EAP), defined in <xref target="RFC3748"/>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <xref target="RFC5216"/> <xref target="I-D.ietf-emu-eap-tls13"/> relies on TLS <xref target="RFC8446"/> to provide strong mutual authentication with certificates <xref target="RFC5280"> and is widely deployed and often used for network access authentication.
 		</t>
 
 		<t>
@@ -126,9 +126,22 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 				<t>
 				This section provides some recommendations for certificates used for EAP-TLS authentication. Unlike TLS authentication on the web, EAP-TLS messages are often carried over the link-layer
 					<list style="symbols">
-						<t>Reasonable number of OIDs</t>
-						
-						<t>...</t>
+						<t>
+						Object Identifiers (OIDs) is ASN.1 data type that defines unique identifiers for objects.  The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate.  The DER length for the 1st two integers is always one byte and subsequent integers are base 128-encoded in the fewest possible bytes.  OIDs are used lavishly in X.509 certificates and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer’s control:
+						</t>
+							<list style="symbols">
+								<t>
+								Each naming attribute in a DN (Directory Name) has one.  DNs used in the issuer and subject fields as well as numerous extensions.  A shallower naming will be smaller, e.g., C=FI, O=Example, SN=B0A123499EFC vs  C=FI, O=Example, OU=Division 1, SOPN=Southern Finland, CN=Coolest IoT Gadget Ever, SN=B0A123499EFC.
+								</t>
+								<t>
+								Every certificate policy (and qualifier) and any mappings to another policy uses identifiers.  Consider carefully what policies apply.
+								</t>
+						<t>
+						DirectoryString and GeneralName types are used extensively to name things, e.g., the DN naming attribute O= (the organizational naming attribute) DirectoryString includes “Example” for the Example organization and uniformResourceIdentifier can be used to indicate the location of the CRL, e.g., “http://crl.example.com/sfig2s1-128.crl", in the CRL Distribution Point extension.  For these particular examples, each character is a byte.  For some non-ASCII character strings in the DN, characters can be multi-byte.  Obviously, the names need to be unique, but there is more than one way to accomplish this without long strings.  This is especially true if the names are not meant to be meaningful to users.
+						</t>
+						<t>
+						Extensions are necessary to comply with <xref target="RFC5280">, but the vast majority are optional.  Include only those are necessary to operate.
+						</t>
 					</list>
 				</t>
 			</section>
@@ -177,6 +190,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		<?rfc include='reference.RFC.2119'?> <!-- Terminology -->
 		<?rfc include='reference.RFC.3748'?> <!-- EAP -->
 		<?rfc include='reference.RFC.5216'?> <!-- EAP-TLS -->
+		<?rfc include='reference.RFC.5280'?> <!-- Certificates -->   
 		<?rfc include='reference.RFC.8174'?> <!-- Terminology -->
 		<?rfc include='reference.I-D.ietf-emu-eap-tls13'?>
 	</references>
