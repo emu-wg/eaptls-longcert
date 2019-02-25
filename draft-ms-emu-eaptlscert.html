@@ -307,8 +307,8 @@ ul.toc li {
   <meta name="dct.creator" content="Sethi, M. and J. Mattsson" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ms-emu-eaptlscert-latest" />
   <meta name="dct.issued" scheme="ISO8601" content="2019-25" />
-  <meta name="dct.abstract" content="EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication.  Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 packets is a major deployment problem. This memo looks at the this problem in detail and describes the potential solutions available.  " />
-  <meta name="description" content="EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication.  Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 packets is a major deployment problem. This memo looks at the this problem in detail and describes the potential solutions available.  " />
+  <meta name="dct.abstract" content="EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 packets is a major deployment problem. This memo looks at the this problem in detail and describes the potential solutions available.  " />
+  <meta name="description" content="EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 packets is a major deployment problem. This memo looks at the this problem in detail and describes the potential solutions available.  " />
 
 </head>
 
@@ -342,7 +342,7 @@ ul.toc li {
   <span class="filename">draft-ms-emu-eaptlscert-latest</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication.  Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 packets is a major deployment problem. This memo looks at the this problem in detail and describes the potential solutions available.  </p>
+<p>EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 packets is a major deployment problem. This memo looks at the this problem in detail and describes the potential solutions available.  </p>
 <h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
@@ -445,14 +445,14 @@ ul.toc li {
 <p id="rfc.section.4.1.1.p.1">This section provides some recommendations for certificates used for EAP-TLS authentication: </p>
 
 <ul>
-<li>Object Identifiers (OIDs) is ASN.1 data type that defines unique identifiers for objects.  The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate.  The DER length for the 1st two integers is always one byte and subsequent integers are base 128-encoded in the fewest possible bytes.  OIDs are used lavishly in X.509 certificates and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer&#8217;s control: <ul>
-<li>Each naming attribute in a DN (Directory Name) has one.  DNs used in the issuer and subject fields as well as numerous extensions.  A shallower naming will be smaller, e.g., C=FI, O=Example, SN=B0A123499EFC vs  C=FI, O=Example, OU=Division 1, SOPN=Southern Finland, CN=Coolest IoT Gadget Ever, SN=B0A123499EFC.  </li>
-<li>Every certificate policy (and qualifier) and any mappings to another policy uses identifiers.  Consider carefully what policies apply.  </li>
+<li>Object Identifiers (OIDs) is ASN.1 data type that defines unique identifiers for objects. The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate. The DER length for the 1st two integers is always one byte and subsequent integers are base 128-encoded in the fewest possible bytes. OIDs are used lavishly in X.509 certificates and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer&#8217;s control: <ul>
+<li>Each naming attribute in a DN (Directory Name) has one. DNs used in the issuer and subject fields as well as numerous extensions. A shallower naming will be smaller, e.g., C=FI, O=Example, SN=B0A123499EFC vs C=FI, O=Example, OU=Division 1, SOPN=Southern Finland, CN=Coolest IoT Gadget Ever, SN=B0A123499EFC.  </li>
+<li>Every certificate policy (and qualifier) and any mappings to another policy uses identifiers. Consider carefully what policies apply.  </li>
 </ul>
 <p> </p>
 </li>
-<li>DirectoryString and GeneralName types are used extensively to name things, e.g., the DN naming attribute O= (the organizational naming attribute) DirectoryString includes &#8220;Example&#8221; for the Example organization and uniformResourceIdentifier can be used to indicate the location of the CRL, e.g., &#8220;http://crl.example.com/sfig2s1-128.crl", in the CRL Distribution Point extension.  For these particular examples, each character is a byte.  For some non-ASCII character strings in the DN, characters can be multi-byte.  Obviously, the names need to be unique, but there is more than one way to accomplish this without long strings.  This is especially true if the names are not meant to be meaningful to users.  </li>
-<li>Extensions are necessary to comply with <a href="#RFC5280" class="xref">[RFC5280]</a>, but the vast majority are optional.  Include only those that are necessary to operate.  </li>
+<li>DirectoryString and GeneralName types are used extensively to name things, e.g., the DN naming attribute O= (the organizational naming attribute) DirectoryString includes &#8220;Example&#8221; for the Example organization and uniformResourceIdentifier can be used to indicate the location of the CRL, e.g., &#8220;http://crl.example.com/sfig2s1-128.crl", in the CRL Distribution Point extension. For these particular examples, each character is a byte. For some non-ASCII character strings in the DN, characters can be multi-byte. Obviously, the names need to be unique, but there is more than one way to accomplish this without long strings. This is especially true if the names are not meant to be meaningful to users.  </li>
+<li>Extensions are necessary to comply with <a href="#RFC5280" class="xref">[RFC5280]</a>, but the vast majority are optional. Include only those that are necessary to operate.  </li>
 </ul>
 
 <p> </p>
