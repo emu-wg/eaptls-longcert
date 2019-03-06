@@ -37,6 +37,18 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 				<email>john.mattsson@ericsson.com</email>
 			</address>
 		</author>
+		<author initials="S" surname="Turner" fullname="Sean Turner">
+			<organization>sn3rd</organization>
+			<address>
+				<postal>
+					<street></street>
+					<city></city>
+					<code></code>
+					<country></country>
+				</postal>
+				<email>sean@sn3rd.com</email>
+			</address>
+		</author>
 	<date />
 
 	<workgroup>Network Working Group </workgroup>
