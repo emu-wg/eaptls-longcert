@@ -5,7 +5,9 @@
 Network Working Group                                           M. Sethi
 Internet-Draft                                               J. Mattsson
 Intended status: Informational                                  Ericsson
-Expires: August 29, 2019                               February 25, 2019
+Expires: September 7, 2019                                     S. Turner
+                                                                   sn3rd
+                                                           March 6, 2019
 
 
         Handling Large Certificates and Long Certificate Chains
@@ -36,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 29, 2019.
+   This Internet-Draft will expire on September 7, 2019.
 
 Copyright Notice
 
@@ -48,16 +50,16 @@ Copyright Notice
    (https://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
+
+
+
+Sethi, et al.           Expires September 7, 2019               [Page 1]
+
+Internet-Draft    Certificates in TLS-based EAP Methods       March 2019
+
+
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
-
-
-
-Sethi & Mattsson         Expires August 29, 2019                [Page 1]
-
-Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
-
-
    the Trust Legal Provisions and are provided without warranty as
    described in the Simplified BSD License.
 
@@ -69,7 +71,7 @@ Table of Contents
    4.  Handling of Large Certificates and Long Certificate Chains  .   4
      4.1.  Updating Certificates and Certificate Chains  . . . . . .   4
        4.1.1.  Guidelines for certificates . . . . . . . . . . . . .   5
-     4.2.  Updating TLS and EAP-TLS Code . . . . . . . . . . . . . .   5
+     4.2.  Updating TLS and EAP-TLS Code . . . . . . . . . . . . . .   6
        4.2.1.  Pre-distributing and Omitting CA Certificates . . . .   6
        4.2.2.  Caching Certificates  . . . . . . . . . . . . . . . .   6
        4.2.3.  Compressing Certificates  . . . . . . . . . . . . . .   7
@@ -104,16 +106,16 @@ Table of Contents
    bytes, the EAP-TLS authentication needs to be fragmented into many
    smaller packets for transportation over the lower layers.  Such
    fragmentation can not only negatively affect the latency, but also
+
+
+
+Sethi, et al.           Expires September 7, 2019               [Page 2]
+
+Internet-Draft    Certificates in TLS-based EAP Methods       March 2019
+
+
    results in other challenges.  For example, many EAP authenticator
    (access point) implementations will drop an EAP session if it hasn't
-
-
-
-Sethi & Mattsson         Expires August 29, 2019                [Page 2]
-
-Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
-
-
    finished after 40 - 50 packets.  This is a major problem and means
    that in many situations, the EAP peer cannot perform network access
    authentication even though both the sides have valid credentials for
@@ -160,15 +162,15 @@ Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
 
    o  Long Subject Alternative Name field.
 
-   o  Long Public Key and Signature fields.
 
 
 
-
-Sethi & Mattsson         Expires August 29, 2019                [Page 3]
+Sethi, et al.           Expires September 7, 2019               [Page 3]
 
-Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
+Internet-Draft    Certificates in TLS-based EAP Methods       March 2019
 
+
+   o  Long Public Key and Signature fields.
 
    o  Can contain multiple object identifiers (OID) that indicate the
       permitted uses of the certificate.  For example, Windows requires
@@ -215,16 +217,17 @@ Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
    dropping an EAP session because of too many packets.  TLS 1.3
    [RFC8446] requires implementations to support ECC.  New cipher suites
    that use ECC are also specified for TLS 1.2 [RFC5289].  Using ECC
+
+
+
+
+Sethi, et al.           Expires September 7, 2019               [Page 4]
+
+Internet-Draft    Certificates in TLS-based EAP Methods       March 2019
+
+
    based cipher suites with existing code can significantly reduce the
    number of messages in a single EAP session.
-
-
-
-
-Sethi & Mattsson         Expires August 29, 2019                [Page 4]
-
-Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
-
 
 4.1.1.  Guidelines for certificates
 
@@ -269,18 +272,17 @@ Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
       majority are optional.  Include only those that are necessary to
       operate.
 
-4.2.  Updating TLS and EAP-TLS Code
 
 
 
 
 
-
-
-Sethi & Mattsson         Expires August 29, 2019                [Page 5]
+Sethi, et al.           Expires September 7, 2019               [Page 5]
 
-Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
+Internet-Draft    Certificates in TLS-based EAP Methods       March 2019
 
+
+4.2.  Updating TLS and EAP-TLS Code
 
 4.2.1.  Pre-distributing and Omitting CA Certificates
 
@@ -331,11 +333,9 @@ Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
 
 
 
-
-
-Sethi & Mattsson         Expires August 29, 2019                [Page 6]
+Sethi, et al.           Expires September 7, 2019               [Page 6]
 
-Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
+Internet-Draft    Certificates in TLS-based EAP Methods       March 2019
 
 
 4.2.3.  Compressing Certificates
@@ -389,9 +389,9 @@ Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
 
 
 
-Sethi & Mattsson         Expires August 29, 2019                [Page 7]
+Sethi, et al.           Expires September 7, 2019               [Page 7]
 
-Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
+Internet-Draft    Certificates in TLS-based EAP Methods       March 2019
 
 
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
@@ -445,9 +445,9 @@ Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
 
 
 
-Sethi & Mattsson         Expires August 29, 2019                [Page 8]
+Sethi, et al.           Expires September 7, 2019               [Page 8]
 
-Internet-Draft    Certificates in TLS-based EAP Methods    February 2019
+Internet-Draft    Certificates in TLS-based EAP Methods       March 2019
 
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
@@ -477,6 +477,10 @@ Authors' Addresses
    Email: john.mattsson@ericsson.com
 
 
+   Sean Turner
+   sn3rd
+
+   Email: sean@sn3rd.com
 
 
 
@@ -497,8 +501,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-Sethi & Mattsson         Expires August 29, 2019                [Page 9]
+Sethi, et al.           Expires September 7, 2019               [Page 9]
