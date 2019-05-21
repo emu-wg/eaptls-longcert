@@ -216,7 +216,8 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		<?rfc include='reference.RFC.5246'?> <!-- TLS 1.2 -->
 		<?rfc include='reference.RFC.8446'?> <!-- TLS 1.3 -->
 		<?rfc include='reference.I-D.ietf-tls-certificate-compression'?> <!-- TLS 1.3 extension -->
-
+		<?rfc include='reference.I-D.thomson-tls-sic'?> <!-- TLS 1.3 extension -->
+		
 		<reference anchor="IEEE-802.1X">
 			<front>
 				<title>IEEE Standard for Local and metropolitan area networks -- Port-Based Network Access Control</title>
