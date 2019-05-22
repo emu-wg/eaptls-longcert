@@ -185,7 +185,11 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		</section>
 
 		<section title="Updating Authenticators (Access Points)" anchor="update-APs">
-			<t>TODO: Shortly describe why this is hard.</t>
+			<t>There are several legitimate reasons that Authenticators (Access Points) may want to limit the number of packets/round-trips/bytes that can be sent. The main reason has been to work around issues where the EAP peer and EAP server end up in an infinite loop ACKing their messages. Another reason is that unlimited communication from an unauthenticated device as EAP could otherwise be use for bulk data transfer.</t>
+
+			<t>Updating the millions of already deployed Authenticators (Access Points) is in many cases not realistic. Vendors may be out of business or do no longer support the products and admins may have lost the login information to the devices. For practical purposes the EAP infrastructure is ossified for the time being.</t>
+
+			<t>Recommendations/Guidelines for new Authenticators (Access Points)?</t>
 		</section>
 	</section>
 
