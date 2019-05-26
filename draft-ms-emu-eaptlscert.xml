@@ -63,8 +63,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <middle>
 	<section title="Introduction">
 		<t>
-		The Extensible Authentication Protocol (EAP), defined in <xref target="RFC3748"/>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <xref target="RFC5216"/> <xref target="I-D.ietf-emu-eap-tls13"/> relies on TLS <xref target="RFC8446"/> to provide strong mutual authentication with certificates <xref target="RFC5280"/> and is widely deployed and often used for network access authentication.
-		</t>
+		The Extensible Authentication Protocol (EAP), defined in <xref target="RFC3748"/>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <xref target="RFC5216"/> <xref target="I-D.ietf-emu-eap-tls13"/> relies on TLS <xref target="RFC8446"/> to provide strong mutual authentication with certificates <xref target="RFC5280"/> and is widely deployed and often used for network access authentication. There are also many other TLS-based EAP methods, such as FAST <xref target="RFC4851"/>, TTLS <xref target="RFC5281"/>, TEAP <xref target="RFC7170"/>, and possibly many vendor specific EAP methods.</t>
 
 		<t>
 		TLS certificates are often relatively large, and the certificate chains are often long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticates both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. Therefore, EAP-TLS authentication usually involve significantly more bytes than when TLS is used as part of HTTPS.
@@ -211,8 +210,11 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 	<references title="Normative References">
 		<?rfc include='reference.RFC.2119'?> <!-- Terminology -->
 		<?rfc include='reference.RFC.3748'?> <!-- EAP -->
+		<?rfc include='reference.RFC.4851'?> <!-- FAST -->
 		<?rfc include='reference.RFC.5216'?> <!-- EAP-TLS -->
 		<?rfc include='reference.RFC.5280'?> <!-- Certificates -->
+		<?rfc include='reference.RFC.5281'?> <!-- TTLS -->
+		<?rfc include='reference.RFC.7170'?> <!-- TEAP -->
 		<?rfc include='reference.RFC.8174'?> <!-- Terminology -->
 		<?rfc include='reference.I-D.ietf-emu-eap-tls13'?>
 	</references>
