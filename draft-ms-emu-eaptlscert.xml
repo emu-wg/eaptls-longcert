@@ -243,7 +243,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
 	<section title="Acknowledgements" numbered="false">
 		<t>
-		This draft is a result of several useful discussions with Alan DeKok, Bernard Aboba, Jari Arkko, Darshak Thakore, and Hannes Tschofening.
+		This draft is a result of several useful discussions with Alan DeKok, Bernard Aboba, Jari Arkko, Jouni Malinen, Darshak Thakore, and Hannes Tschofening.
 		</t>
 	</section>
 </back>
