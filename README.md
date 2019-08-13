@@ -1,4 +1,4 @@
-# Handling Large Certificates and Long Certificate Chains in EAP-TLS
+# Handling Large Certificates and Long Certificate Chains in TLS-based EAP Methods
 
 This is the working area for the individual Internet-Draft, "Handling Large Certificates and Long Certificate Chains in EAP-TLS".
 
