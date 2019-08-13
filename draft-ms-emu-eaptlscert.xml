@@ -8,7 +8,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <?rfc iprnotified="yes" ?>
 <?rfc toc="yes" ?>
 <?rfc symrefs="yes" ?>
-<rfc category="info" ipr="trust200902" docName="draft-ms-emu-eaptlscert-latest">
+<rfc category="info" ipr="trust200902" docName="draft-ietf-emu-eaptlscert-latest">
 
 <front>
 	<title abbrev="Certificates in TLS-based EAP Methods">Handling Large Certificates and Long Certificate Chains in&nbsp;TLS&#8209;based&nbsp;EAP&nbsp;Methods</title>
