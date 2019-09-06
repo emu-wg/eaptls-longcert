@@ -2,9 +2,9 @@
 
 This is the working area for the individual Internet-Draft, "Handling Large Certificates and Long Certificate Chains in EAP-TLS".
 
-* [Editor's Copy](https://emu-wg.github.io/eaptls-longcert/#go.draft-ms-emu-eaptlscert.html)
-* [Individual Draft](https://tools.ietf.org/html/draft-ms-emu-eaptlscert)
-* [Compare Editor's Copy to Individual Draft](https://emu-wg.github.io/eaptls-longcert/#go.draft-ms-emu-eaptlscert.diff)
+* [Editor's Copy](https://emu-wg.github.io/eaptls-longcert/#go.draft-ietf-emu-eaptlscert.html)
+* [Individual Draft](https://tools.ietf.org/html/draft-ietf-emu-eaptlscert)
+* [Compare Editor's Copy to Individual Draft](https://emu-wg.github.io/eaptls-longcert/#go.draft-ietf-emu-eaptlscert.diff)
 
 ## Building the Draft
 
