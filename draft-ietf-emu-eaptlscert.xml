@@ -66,12 +66,13 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		The Extensible Authentication Protocol (EAP), defined in <xref target="RFC3748"/>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <xref target="RFC5216"/> <xref target="I-D.ietf-emu-eap-tls13"/> relies on TLS <xref target="RFC8446"/> to provide strong mutual authentication with certificates <xref target="RFC5280"/> and is widely deployed and often used for network access authentication. There are also many other TLS-based EAP methods, such as FAST <xref target="RFC4851"/>, TTLS <xref target="RFC5281"/>, TEAP <xref target="RFC7170"/>, and possibly many vendor specific EAP methods.</t>
 
 		<t>
-		TLS certificates are often relatively large, and the certificate chains are often long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticates both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. Therefore, EAP-TLS authentication usually involve significantly more bytes than when TLS is used as part of HTTPS.
+		TLS certificates are often relatively large, and the certificate chains are often long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticates both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. This is because EAP peers often follow organizational hierarchies and tend to have many intermediate certificates. Thus, EAP-TLS authentication usually involve significantly more octets than when TLS is used as part of HTTPS.
 		</t>
 
 		<t>
-		As the EAP fragment size in typical deployments are just 1000 - 1500 bytes, the EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower layers. Such fragmentation can not only negatively affect the latency, but also results in other challenges. For example, many EAP authenticator (access point) implementations will drop an EAP session if it hasn't finished after 40 - 50 round-trips. This is a major problem and means that in many situations, the EAP peer cannot perform network access authentication even though both the sides have valid credentials for successful authentication and key derivation.
+		Section 3.1 of <xref target="RFC3748"/> states that EAP implementations can assume a MTU of at least 1020 octets from lower layers. The EAP fragment size in typical deployments is just 1020 - 1500 octets. Thus, EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower layers. Such fragmentation can not only negatively affect the latency, but also results in other challenges. For example, many EAP authenticator (access point) implementations will drop an EAP session if it has not finished after 40 - 50 round-trips. This is a major problem and means that in many situations, the EAP peer cannot perform network access authentication even though both the sides have valid credentials for successful authentication and key derivation.
 		</t>
+		<t>Not all EAP deployments are constrained by the MTU of the lower layer. For example, some implementations support EAP over Ethernet "Jumbo" frames that can easily allow very large EAP packets. Larger packets will naturally help lower the number of round trips required for successful EAP-TLS authentication. However, deployment experience has shown that these jumbo frames are not always implemented correctly. Additionally, EAP fragment size is also restricted by protocols such as RADIUS <xref target="RFC2865"/> which are responsible for transporting EAP messages between an authenticator and an EAP server. RADIUS can generally transport only about 4000 octets of EAP in a single message.</t>
 
 		<t>
 		This memo looks at related work and potential tools available for overcoming the deployment challenges induced by large certificates and long certificate chains. It then discusses the solutions available to overcome these challenges.
@@ -83,7 +84,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when, they appear in all capitals, as shown here.
 		</t>
 
-		<t>Readers are expected to be familiar with the terms and concepts used in EAP-TLS <xref target="RFC5216"/> and TLS <xref target="RFC8446"/>. In particular, this document frequently uses the following terms as they have been defined in <xref target="RFC5216"/>:
+		<t>Readers are expected to be familiar with the terms and concepts used in EAP <xref target="RFC3748"/>, EAP-TLS <xref target="RFC5216"/>, and TLS <xref target="RFC8446"/>. In particular, this document frequently uses the following terms as they have been defined in <xref target="RFC5216"/>:
 				<list style="hanging" hangIndent="6">
 					<t hangText="Authenticator">
 					The entity initiating EAP authentication. Typically implemented as part of a network switch or a wireless access point.
@@ -102,13 +103,13 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
 	<section title="Experience with Deployments">
 		<t>
-		The EAP fragment size in typical deployments can be 1000 - 1500 bytes. Certificate sizes can be large for a number of reasons:
+		As stated earlier, the EAP fragment size in typical deployments is just 1020 - 1500 octets. Certificate sizes can however be large for a number of reasons:
 			<list style="symbols">
 				<t>Long Subject Alternative Name field.</t>
 
 				<t>Long Public Key and Signature fields.</t>
 
-				<t>Can contain multiple object identifiers (OID) that indicate the permitted uses of the certificate. For example, Windows requires certain OID's in the certificates for EAP-TLS to work.</t>
+				<t>Can contain multiple object identifiers (OID) that indicate the permitted uses of the certificate as noted in Section 5.3 of <xref target="RFC5216"/>. Most implementations verify the presence of these OIDs for successful authentication.</t>
 
 				<t>Multiple user groups in the certificate.</t>
 			</list>
@@ -119,13 +120,13 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		</t>
 
 		<t>
-		Most common access point implementations drop EAP sessions that don't complete within 50 round-trips. This means that if the chain is larger than ~ 60 kB, EAP-TLS authentication cannot complete successfully in most deployments.
+		Most common access point implementations drop EAP sessions that do not complete within 50 round-trips. This means that if the chain is larger than ~ 60 kB, EAP-TLS authentication cannot complete successfully in most deployments.
 		</t>
 	</section>
 
 	<section title="Handling of Large Certificates and Long Certificate Chains">
 		<t>
-		This section discusses some possible alternatives for overcoming the challenge of large certificates and long certificate chains in EAP-TLS authentication. In <xref target="update-certs"/> we look at recommendations that require an update of the certificates or certifcate chains that are used for EAP-TLS authentication without requiring changes to the existing EAP-TLS code base. We also provide some guidelines when issuing certificates for use with EAP-TLS. In <xref target="update-code"/> we look at recommendations that rely on updates to the EAP-TLS implementations which can be deployed with existing certificates. In <xref target="update-APs"/> we shortly discuss the solution to update or reconfigure authenticator which can be deployed without changes to existing certificates or EAP-TLS code.
+		This section discusses some possible alternatives for overcoming the challenge of large certificates and long certificate chains in EAP-TLS authentication. In <xref target="update-certs"/> we look at recommendations that require an update of the certificates or certificate chains that are used for EAP-TLS authentication without requiring changes to the existing EAP-TLS code base. We also provide some guidelines when issuing certificates for use with EAP-TLS. In <xref target="update-code"/> we look at recommendations that rely on updates to the EAP-TLS implementations which can be deployed with existing certificates. In <xref target="update-APs"/> we shortly discuss the solution to update or reconfigure authenticator which can be deployed without changes to existing certificates or EAP-TLS code.
 		</t>
 		
 		<section title="Updating Certificates and Certificate Chains" anchor="update-certs">
@@ -138,7 +139,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 				This section provides some recommendations for certificates used for EAP-TLS authentication:
 					<list style="symbols">
 						<t>
-						Object Identifiers (OIDs) is ASN.1 data type that defines unique identifiers for objects. The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate. The DER length for the 1st two integers is always one byte and subsequent integers are base 128-encoded in the fewest possible bytes. OIDs are used lavishly in X.509 certificates and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer’s control:
+						Object Identifiers (OIDs) is ASN.1 data type that defines unique identifiers for objects. The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate. The DER length for the 1st two integers is always one octet and subsequent integers are base 128-encoded in the fewest possible octets. OIDs are used lavishly in X.509 certificates and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer’s control:
 							<list style="symbols">
 								<t>
 								Each naming attribute in a DN (Directory Name) has one. DNs used in the issuer and subject fields as well as numerous extensions. A shallower naming will be smaller, e.g., C=FI, O=Example, SN=B0A123499EFC vs C=FI, O=Example, OU=Division 1, SOPN=Southern Finland, CN=Coolest IoT Gadget Ever, SN=B0A123499EFC.
@@ -154,6 +155,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 						<t>
 						Extensions are necessary to comply with <xref target="RFC5280"/>, but the vast majority are optional. Include only those that are necessary to operate.
 						</t>
+						<t>As stated earlier, certificate chains of the EAP peer often follow organizational hierarchies. In such cases, information in intermediate certificates (such as postal addresses) do not provide any additional value and they can be shortened (for example: only including the department name instead of the full postal address).</t>
 					</list>
 				</t>
 			</section>
@@ -186,14 +188,28 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 				For a client that has all intermediates, having the server send intermediates in the TLS handshake increases the size of the handshake unnecessarily. The TLS working group is working on an extension for TLS 1.3 <xref target="I-D.thomson-tls-sic"/> that allows a TLS client that has access to the complete set of published intermediate certificates to inform servers of this fact so that the server can avoid sending intermediates, reducing the size of the TLS handshake. The mechanism is intended to be complementary with certificate compression.
 				</t>
 			</section>
+			<section title="Using Fewer Intermediate Certificates">
+				<t>
+					The EAP peer certificate chain does not have to mirror the organizational hierarchy. For successful EAP-TLS authentication, certificate chains should not contain more than 2-4 intermediate certificates.
+				</t>
+				<t>
+					Administrators responsible for deployments using TLS-based EAP methods can examine the certificate chains and make rough calculations about the number of round trips required for successful authentication. For example, dividing the total size of all the certificates in the peer and server certificate chain by 1020 will indicate the minimum number of round trips required. If this number exceeds 50, then, administrators can expect failures with many common authenticator implementations.
+				</t>
+			</section>
 		</section>
 
 		<section title="Updating Authenticators" anchor="update-APs">
-			<t>There are several legitimate reasons that Authenticators may want to limit the number of round-trips/packets/bytes that can be sent. The main reason has been to work around issues where the EAP peer and EAP server end up in an infinite loop ACKing their messages. Another second reason is that unlimited communication from an unauthenticated device as EAP could otherwise be use for bulk data transfer. A third reason is to prevent denial-of-service attacks.</t>
+			<t>
+				There are several legitimate reasons that authenticators may want to limit the number of round-trips/packets/octets that can be sent. The main reason has been to work around issues where the EAP peer and EAP server end up in an infinite loop ACKing their messages. Another second reason is that unlimited communication from an unauthenticated device as EAP could otherwise be use for bulk data transfer. A third reason is to prevent denial-of-service attacks.
+			</t>
 
-			<t>Updating the millions of already deployed access points and switches is in many cases not realistic. Vendors may be out of business or do no longer support the products and admins may have lost the login information to the devices. For practical purposes the EAP infrastructure is ossified for the time being.</t>
+			<t>
+				Updating the millions of already deployed access points and switches is in many cases not realistic. Vendors may be out of business or do no longer support the products and administrators may have lost the login information to the devices. For practical purposes the EAP infrastructure is ossified for the time being.
+			</t>
 
-			<t>Vendors making new authenticators should consider increasing the number of round-trips allowed before denying the EAP authentication to complete.</t>
+			<t>
+				Vendors making new authenticators should consider increasing the number of round-trips allowed to 100 before denying the EAP authentication to complete. At the same time, administrators responsible for EAP deployments should ensure that this 100 roundtrip limit is not exceeded in practice.
+			</t>
 		</section>
 	</section>
 
@@ -202,7 +218,17 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 	</section>
 
 	<section anchor="Security" title="Security Considerations">
-		<t>TBD</t>
+		<t>
+			Updating implementations to TLS version 1.3 allows omitting all certificates with a trust anchor known by the other endpoint. TLS 1.3 additionally provides improved security, privacy, and reduced latency for EAP-TLS <xref target="I-D.ietf-emu-eap-tls13"/>.
+		</t>
+
+		<t>
+			When compressing certificates, the underlying compression algorithm MUST output the same data that was provided as input by. After decompression, the Certificate message MUST be processed as if it were encoded without being compressed. Additional security considerations when compressing certificates are specified in <xref target="I-D.ietf-tls-certificate-compression"/>
+		</t>
+
+		<t>
+			As noted in <xref target="I-D.thomson-tls-sic"/>, suppressing intermediate certificates creates an unencrypted signal that might be used to identify which clients believe that they have all intermediates.  This might also allow more effective fingerprinting and tracking of client.
+		</t>
 	</section>
 </middle>
 
@@ -220,6 +246,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 	</references>
 
 	<references title="Informative References">
+		<?rfc include='reference.RFC.2865'?> <!-- RADIUS -->
 		<?rfc include='reference.RFC.5289'?> <!-- TLS 1.2 ciphersuites -->
 		<?rfc include='reference.RFC.6090'?> <!-- ECC -->
 		<?rfc include='reference.RFC.7924'?> <!-- TLS cached information extension -->
