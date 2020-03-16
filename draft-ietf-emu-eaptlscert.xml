@@ -116,7 +116,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		</t>
 
 		<t>
-		The certificate chain can typically include 2 - 6 certificates to the root-of-trust.
+		A certificate chain (called a certification path in <xref target="RFC5280"/>) can have 2 - 6 intermediate certificates between the end-entity certificate and the trust anchor <xref target="RFC5280"/>.
 		</t>
 
 		<t>
@@ -227,7 +227,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		</t>
 
 		<t>
-			As noted in <xref target="I-D.thomson-tls-sic"/>, suppressing intermediate certificates creates an unencrypted signal that might be used to identify which clients believe that they have all intermediates.  This might also allow more effective fingerprinting and tracking of client.
+			As noted in <xref target="I-D.thomson-tls-sic"/>, suppressing intermediate certificates creates an unencrypted signal that might be used to identify which clients believe that they have all intermediates. This might also allow more effective fingerprinting and tracking of clients.
 		</t>
 	</section>
 </middle>
