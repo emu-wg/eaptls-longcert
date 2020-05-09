@@ -290,10 +290,12 @@ ul.toc li {
 <link href="#rfc.section.4.1.1" rel="Chapter" title="4.1.1 Guidelines for certificates">
 <link href="#rfc.section.4.2" rel="Chapter" title="4.2 Updating TLS and EAP-TLS Code">
 <link href="#rfc.section.4.2.1" rel="Chapter" title="4.2.1 Pre-distributing and Omitting CA Certificates">
-<link href="#rfc.section.4.2.2" rel="Chapter" title="4.2.2 Caching Certificates">
-<link href="#rfc.section.4.2.3" rel="Chapter" title="4.2.3 Compressing Certificates">
-<link href="#rfc.section.4.2.4" rel="Chapter" title="4.2.4 Suppressing Intermediate Certificates">
-<link href="#rfc.section.4.2.5" rel="Chapter" title="4.2.5 Using Fewer Intermediate Certificates">
+<link href="#rfc.section.4.2.2" rel="Chapter" title="4.2.2 URLs for Client Certificates">
+<link href="#rfc.section.4.2.3" rel="Chapter" title="4.2.3 Compact TLS 1.3">
+<link href="#rfc.section.4.2.4" rel="Chapter" title="4.2.4 Caching Certificates">
+<link href="#rfc.section.4.2.5" rel="Chapter" title="4.2.5 Compressing Certificates">
+<link href="#rfc.section.4.2.6" rel="Chapter" title="4.2.6 Suppressing Intermediate Certificates">
+<link href="#rfc.section.4.2.7" rel="Chapter" title="4.2.7 Using Fewer Intermediate Certificates">
 <link href="#rfc.section.4.3" rel="Chapter" title="4.3 Updating Authenticators">
 <link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
 <link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
@@ -309,9 +311,9 @@ ul.toc li {
 
   <meta name="dct.creator" content="Sethi, M., Mattsson, J., and S. Turner" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-emu-eaptlscert-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-16" />
-  <meta name="dct.abstract" content="EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This memo looks at the this problem in detail and describes the potential solutions available.  " />
-  <meta name="description" content="EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This memo looks at the this problem in detail and describes the potential solutions available.  " />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-09" />
+  <meta name="dct.abstract" content="EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This document looks at the this problem in detail and describes the potential solutions available.  " />
+  <meta name="description" content="EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This document looks at the this problem in detail and describes the potential solutions available.  " />
 
 </head>
 
@@ -333,7 +335,7 @@ ul.toc li {
 <td class="right">Ericsson</td>
 </tr>
 <tr>
-<td class="left">Expires: September 17, 2020</td>
+<td class="left">Expires: November 10, 2020</td>
 <td class="right">S. Turner</td>
 </tr>
 <tr>
@@ -342,7 +344,7 @@ ul.toc li {
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">March 16, 2020</td>
+<td class="right">May 9, 2020</td>
 </tr>
 
     	
@@ -353,12 +355,12 @@ ul.toc li {
   <span class="filename">draft-ietf-emu-eaptlscert-latest</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This memo looks at the this problem in detail and describes the potential solutions available.  </p>
+<p>EAP-TLS and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This document looks at the this problem in detail and describes the potential solutions available.  </p>
 <h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on September 17, 2020.</p>
+<p>This Internet-Draft will expire on November 10, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2020 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -384,13 +386,17 @@ ul.toc li {
 </li>
 <ul><li>4.2.1.   <a href="#rfc.section.4.2.1">Pre-distributing and Omitting CA Certificates</a>
 </li>
-<li>4.2.2.   <a href="#rfc.section.4.2.2">Caching Certificates</a>
+<li>4.2.2.   <a href="#rfc.section.4.2.2">URLs for Client Certificates</a>
 </li>
-<li>4.2.3.   <a href="#rfc.section.4.2.3">Compressing Certificates</a>
+<li>4.2.3.   <a href="#rfc.section.4.2.3">Compact TLS 1.3</a>
 </li>
-<li>4.2.4.   <a href="#rfc.section.4.2.4">Suppressing Intermediate Certificates</a>
+<li>4.2.4.   <a href="#rfc.section.4.2.4">Caching Certificates</a>
 </li>
-<li>4.2.5.   <a href="#rfc.section.4.2.5">Using Fewer Intermediate Certificates</a>
+<li>4.2.5.   <a href="#rfc.section.4.2.5">Compressing Certificates</a>
+</li>
+<li>4.2.6.   <a href="#rfc.section.4.2.6">Suppressing Intermediate Certificates</a>
+</li>
+<li>4.2.7.   <a href="#rfc.section.4.2.7">Using Fewer Intermediate Certificates</a>
 </li>
 </ul><li>4.3.   <a href="#rfc.section.4.3">Updating Authenticators</a>
 </li>
@@ -414,15 +420,15 @@ ul.toc li {
 
   <h1 id="rfc.section.1">
 <a href="#rfc.section.1">1.</a> Introduction</h1>
-<p id="rfc.section.1.p.1">The Extensible Authentication Protocol (EAP), defined in <a href="#RFC3748" class="xref">[RFC3748]</a>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <a href="#RFC5216" class="xref">[RFC5216]</a> <a href="#I-D.ietf-emu-eap-tls13" class="xref">[I-D.ietf-emu-eap-tls13]</a> relies on TLS <a href="#RFC8446" class="xref">[RFC8446]</a> to provide strong mutual authentication with certificates <a href="#RFC5280" class="xref">[RFC5280]</a> and is widely deployed and often used for network access authentication. There are also many other TLS-based EAP methods, such as FAST <a href="#RFC4851" class="xref">[RFC4851]</a>, TTLS <a href="#RFC5281" class="xref">[RFC5281]</a>, TEAP <a href="#RFC7170" class="xref">[RFC7170]</a>, and possibly many vendor specific EAP methods.</p>
-<p id="rfc.section.1.p.2">TLS certificates are often relatively large, and the certificate chains are often long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticates both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. This is because EAP peers often follow organizational hierarchies and tend to have many intermediate certificates. Thus, EAP-TLS authentication usually involve significantly more octets than when TLS is used as part of HTTPS.  </p>
-<p id="rfc.section.1.p.3">Section 3.1 of <a href="#RFC3748" class="xref">[RFC3748]</a> states that EAP implementations can assume a MTU of at least 1020 octets from lower layers. The EAP fragment size in typical deployments is just 1020 - 1500 octets. Thus, EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower layers. Such fragmentation can not only negatively affect the latency, but also results in other challenges. For example, many EAP authenticator (access point) implementations will drop an EAP session if it has not finished after 40 - 50 round-trips. This is a major problem and means that in many situations, the EAP peer cannot perform network access authentication even though both the sides have valid credentials for successful authentication and key derivation.  </p>
-<p id="rfc.section.1.p.4">Not all EAP deployments are constrained by the MTU of the lower layer. For example, some implementations support EAP over Ethernet "Jumbo" frames that can easily allow very large EAP packets. Larger packets will naturally help lower the number of round trips required for successful EAP-TLS authentication. However, deployment experience has shown that these jumbo frames are not always implemented correctly. Additionally, EAP fragment size is also restricted by protocols such as RADIUS <a href="#RFC2865" class="xref">[RFC2865]</a> which are responsible for transporting EAP messages between an authenticator and an EAP server. RADIUS can generally transport only about 4000 octets of EAP in a single message.</p>
-<p id="rfc.section.1.p.5">This memo looks at related work and potential tools available for overcoming the deployment challenges induced by large certificates and long certificate chains. It then discusses the solutions available to overcome these challenges.  </p>
+<p id="rfc.section.1.p.1">The Extensible Authentication Protocol (EAP), defined in <a href="#RFC3748" class="xref">[RFC3748]</a>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <a href="#RFC5216" class="xref">[RFC5216]</a> <a href="#I-D.ietf-emu-eap-tls13" class="xref">[I-D.ietf-emu-eap-tls13]</a> relies on TLS <a href="#RFC8446" class="xref">[RFC8446]</a> to provide strong mutual authentication with certificates <a href="#RFC5280" class="xref">[RFC5280]</a> and is widely deployed and often used for network access authentication. There are also many other TLS-based EAP methods, such as Flexible Authentication via Secure Tunneling (EAP-FAST) <a href="#RFC4851" class="xref">[RFC4851]</a>, Tunneled Transport Layer Security (EAP-TTLS) <a href="#RFC5281" class="xref">[RFC5281]</a>, Tunnel Extensible Authentication Protocol (EAP-TEAP) <a href="#RFC7170" class="xref">[RFC7170]</a>, and possibly many vendor specific EAP methods.  </p>
+<p id="rfc.section.1.p.2">TLS certificates in EAP deployments can be relatively large, and the certificate chains can be long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticates both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. This is because EAP peers often follow organizational hierarchies and tend to have many intermediate certificates. Thus, EAP-TLS authentication usually involve significantly more octets than when TLS is used as part of HTTPS.  </p>
+<p id="rfc.section.1.p.3">Section 3.1 of <a href="#RFC3748" class="xref">[RFC3748]</a> states that EAP implementations can assume a MTU of at least 1020 octets from lower layers. The EAP fragment size in typical deployments is just 1020 - 1500 octets (since the maximum Ethernet frame size is ~ 1500 bytes). Thus, EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower layers. Such fragmentation can not only negatively affect the latency, but also results in other challenges. For example, some EAP authenticator (access point) implementations will drop an EAP session if it has not finished after 40 - 50 round-trips. This is a major problem and means that in many situations, the EAP peer cannot perform network access authentication even though both the sides have valid credentials for successful authentication and key derivation.  </p>
+<p id="rfc.section.1.p.4">Not all EAP deployments are constrained by the MTU of the lower layer. For example, some implementations support EAP over Ethernet "Jumbo" frames that can easily allow very large EAP packets. Larger packets will naturally help lower the number of round trips required for successful EAP-TLS authentication. However, deployment experience has shown that these jumbo frames are not always implemented correctly. Additionally, EAP fragment size is also restricted by protocols such as RADIUS <a href="#RFC2865" class="xref">[RFC2865]</a> which are responsible for transporting EAP messages between an authenticator and an EAP server. RADIUS can generally transport only about 4000 octets of EAP in a single message (the maximum length of RADIUS packet is restricted to 4096 octets in <a href="#RFC2865" class="xref">[RFC2865]</a>).  </p>
+<p id="rfc.section.1.p.5">This document looks at related work and potential tools available for overcoming the deployment challenges induced by large certificates and long certificate chains. It then discusses the solutions available to overcome these challenges.  </p>
 <h1 id="rfc.section.2">
 <a href="#rfc.section.2">2.</a> Terminology</h1>
 <p id="rfc.section.2.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <a href="#RFC2119" class="xref">[RFC2119]</a> <a href="#RFC8174" class="xref">[RFC8174]</a> when, and only when, they appear in all capitals, as shown here.  </p>
-<p id="rfc.section.2.p.2">Readers are expected to be familiar with the terms and concepts used in EAP <a href="#RFC3748" class="xref">[RFC3748]</a>, EAP-TLS <a href="#RFC5216" class="xref">[RFC5216]</a>, and TLS <a href="#RFC8446" class="xref">[RFC8446]</a>. In particular, this document frequently uses the following terms as they have been defined in <a href="#RFC5216" class="xref">[RFC5216]</a>: </p>
+<p id="rfc.section.2.p.2">Readers are expected to be familiar with the terms and concepts used in EAP <a href="#RFC3748" class="xref">[RFC3748]</a>, EAP-TLS <a href="#RFC5216" class="xref">[RFC5216]</a>, and TLS <a href="#RFC8446" class="xref">[RFC8446]</a>. In particular, this document frequently uses the following terms as they have been defined in <a href="#RFC5216" class="xref">[RFC5216]</a>: <a href="#RFC5280" class="xref">[RFC5280]</a>.  </p>
 
 <dl>
 <dt>Authenticator</dt>
@@ -433,7 +439,7 @@ ul.toc li {
 <dd style="margin-left: 6">The entity that terminates the EAP authentication method with the peer. In the case where no backend authentication server is used, the EAP server is part of the authenticator. In the case where the authenticator operates in pass-through mode, the EAP server is located on the backend authentication server. In EAP-TLS, the EAP server implements the TLS server role.  </dd>
 </dl>
 
-<p> </p>
+<p> The document additionally uses the terms trust anchor and certification path defined in </p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> Experience with Deployments</h1>
 <p id="rfc.section.3.p.1">As stated earlier, the EAP fragment size in typical deployments is just 1020 - 1500 octets. Certificate sizes can however be large for a number of reasons: </p>
@@ -446,8 +452,8 @@ ul.toc li {
 </ul>
 
 <p> </p>
-<p id="rfc.section.3.p.2">A certificate chain (called a certification path in <a href="#RFC5280" class="xref">[RFC5280]</a>) can have 2 - 6 intermediate certificates between the end-entity certificate and the trust anchor <a href="#RFC5280" class="xref">[RFC5280]</a>.  </p>
-<p id="rfc.section.3.p.3">Most common access point implementations drop EAP sessions that do not complete within 50 round-trips. This means that if the chain is larger than ~ 60 kB, EAP-TLS authentication cannot complete successfully in most deployments.  </p>
+<p id="rfc.section.3.p.2">A certificate chain (called a certification path in <a href="#RFC5280" class="xref">[RFC5280]</a>) can have 2 - 6 intermediate certificates between the end-entity certificate and the trust anchor.  </p>
+<p id="rfc.section.3.p.3">Many access point implementations drop EAP sessions that do not complete within 50 round-trips. This means that if the chain is larger than ~ 60 kB, EAP-TLS authentication cannot complete successfully in most deployments.  </p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> Handling of Large Certificates and Long Certificate Chains</h1>
 <p id="rfc.section.4.p.1">This section discusses some possible alternatives for overcoming the challenge of large certificates and long certificate chains in EAP-TLS authentication. In <a href="#update-certs" class="xref">Section 4.1</a> we look at recommendations that require an update of the certificates or certificate chains that are used for EAP-TLS authentication without requiring changes to the existing EAP-TLS code base. We also provide some guidelines when issuing certificates for use with EAP-TLS. In <a href="#update-code" class="xref">Section 4.2</a> we look at recommendations that rely on updates to the EAP-TLS implementations which can be deployed with existing certificates. In <a href="#update-APs" class="xref">Section 4.3</a> we shortly discuss the solution to update or reconfigure authenticator which can be deployed without changes to existing certificates or EAP-TLS code.  </p>
@@ -478,21 +484,27 @@ ul.toc li {
 </h1>
 <h1 id="rfc.section.4.2.1">
 <a href="#rfc.section.4.2.1">4.2.1.</a> Pre-distributing and Omitting CA Certificates</h1>
-<p id="rfc.section.4.2.1.p.1">The TLS Certificate message conveys the sending endpoint's certificate chain. TLS allows endpoints to reduce the sizes of the Certificate messages by omitting certificates that the other endpoint is known to possess. When using TLS 1.3, all certificates that specify a trust anchor known by the other endpoint may be omitted (see Section 4.4.2 of <a href="#RFC8446" class="xref">[RFC8446]</a>). When using TLS 1.2 or earlier, only the self-signed certificate that specifies the root certificate authority may be omitted (see Section 7.4.2 of <a href="#RFC5246" class="xref">[RFC5246]</a> Therefore, updating TLS implementations to version 1.3 can help to significantly reduce the number of messages exchanged for EAP-TLS authentication. The omitted certificates need to be pre-distributed independently of TLS and the TLS implementation need to be configured to omit the pre-distributed certificates.  </p>
+<p id="rfc.section.4.2.1.p.1">The TLS Certificate message conveys the sending endpoint's certificate chain. TLS allows endpoints to reduce the size of the Certificate message by omitting certificates that the other endpoint is known to possess. When using TLS 1.3, all certificates that specify a trust anchor known by the other endpoint may be omitted (see Section 4.4.2 of <a href="#RFC8446" class="xref">[RFC8446]</a>). When using TLS 1.2 or earlier, only the self-signed certificate that specifies the root certificate authority may be omitted (see Section 7.4.2 of <a href="#RFC5246" class="xref">[RFC5246]</a> Therefore, updating TLS implementations to version 1.3 can help to significantly reduce the number of messages exchanged for EAP-TLS authentication. The omitted certificates need to be pre-distributed independently of TLS and the TLS implementations need to be configured to omit these pre-distributed certificates.  </p>
 <h1 id="rfc.section.4.2.2">
-<a href="#rfc.section.4.2.2">4.2.2.</a> Caching Certificates</h1>
-<p id="rfc.section.4.2.2.p.1">The TLS Cached Information Extension <a href="#RFC7924" class="xref">[RFC7924]</a> specifies an extension where a server can exclude transmission of certificate information cached in an earlier TLS handshake. The client and the server would first execute the full TLS handshake. The client would then cache the certificate provided by the server. When the TLS client later connects to the same TLS server without using session resumption, it can attach the "cached_info" extension to the ClientHello message. This would allow the client to indicate that it has cached the certificate. The client would also include a fingerprint of the server certificate chain. If the server's certificate has not changed, then the server does not need to send its certificate and the corresponding certificate chain again. In case information has changed, which can be seen from the fingerprint provided by the client, the certificate payload is transmitted to the client to allow the client to update the cache. The extension however necessitates a successful full handshake before any caching. This extension can be useful when, for example, when a successful authentication between an EAP peer and EAP server has occurred in the home network. If authenticators in a roaming network are more strict at dropping long EAP sessions, an EAP peer can use the Cached Information Extension to reduce the total number of messages.  </p>
-<p id="rfc.section.4.2.2.p.2">However, if all authenticators drop the EAP session for a given EAP peer and EAP server combination, a successful full handshake is not possible. An option in such a scenario would be to cache validated certificate chains even if the EAP-TLS exchange fails, but this is currently not allowed according to <a href="#RFC7924" class="xref">[RFC7924]</a>.  </p>
+<a href="#rfc.section.4.2.2">4.2.2.</a> URLs for Client Certificates</h1>
+<p><a href="#RFC6066" class="xref">[RFC6066]</a> defines the "client_certificate_url" extension which allows TLS clients to send a sequence of Uniform Resource Locators (URLs) instead of the client certificate. URLs can refer to a single certificate or a certificate chain. Using this extension can curtail the amount of fragmentation in EAP deployments thereby allowing EAP sessions to successfully complete.  </p>
 <h1 id="rfc.section.4.2.3">
-<a href="#rfc.section.4.2.3">4.2.3.</a> Compressing Certificates</h1>
-<p id="rfc.section.4.2.3.p.1">The TLS working group is also working on an extension for TLS 1.3 <a href="#I-D.ietf-tls-certificate-compression" class="xref">[I-D.ietf-tls-certificate-compression]</a> that allows compression of certificates and certificate chains during full handshakes. The client can indicate support for compressed server certificates by including this extension in the ClientHello message. Similarly, the server can indicate support for compression of client certificates by including this extension in the CertificateRequest message. While such an extension can alleviate the problem of excessive fragmentation in EAP-TLS, it can only be used with TLS version 1.3 and higher. Deployments that rely on older versions of TLS cannot benefit from this extension.  </p>
+<a href="#rfc.section.4.2.3">4.2.3.</a> Compact TLS 1.3</h1>
+<p><a href="#I-D.ietf-tls-ctls" class="xref">[I-D.ietf-tls-ctls]</a> defines a "compact" version of TLS 1.3 and reduces the message size of the protocol by removing obsolete material and using more efficient encoding. This naturally means that cTLS is not interoperable with previous versions of the TLS protocol. It also defines a compression profile with which either side can define dictionary of "known certificates". Thus, cTLS can provide another mechanism for EAP-TLS deployments to reduce the size of messages and avoid excessive fragmentation.  </p>
 <h1 id="rfc.section.4.2.4">
-<a href="#rfc.section.4.2.4">4.2.4.</a> Suppressing Intermediate Certificates</h1>
-<p id="rfc.section.4.2.4.p.1">For a client that has all intermediates, having the server send intermediates in the TLS handshake increases the size of the handshake unnecessarily. The TLS working group is working on an extension for TLS 1.3 <a href="#I-D.thomson-tls-sic" class="xref">[I-D.thomson-tls-sic]</a> that allows a TLS client that has access to the complete set of published intermediate certificates to inform servers of this fact so that the server can avoid sending intermediates, reducing the size of the TLS handshake. The mechanism is intended to be complementary with certificate compression.  </p>
+<a href="#rfc.section.4.2.4">4.2.4.</a> Caching Certificates</h1>
+<p id="rfc.section.4.2.4.p.1">The TLS Cached Information Extension <a href="#RFC7924" class="xref">[RFC7924]</a> specifies an extension where a server can exclude transmission of certificate information cached in an earlier TLS handshake. The client and the server would first execute the full TLS handshake. The client would then cache the certificate provided by the server. When the TLS client later connects to the same TLS server without using session resumption, it can attach the "cached_info" extension to the ClientHello message. This would allow the client to indicate that it has cached the certificate. The client would also include a fingerprint of the server certificate chain. If the server's certificate has not changed, then the server does not need to send its certificate and the corresponding certificate chain again. In case information has changed, which can be seen from the fingerprint provided by the client, the certificate payload is transmitted to the client to allow the client to update the cache. The extension however necessitates a successful full handshake before any caching. This extension can be useful when, for example, when a successful authentication between an EAP peer and EAP server has occurred in the home network. If authenticators in a roaming network are more strict at dropping long EAP sessions, an EAP peer can use the Cached Information Extension to reduce the total number of messages.  </p>
+<p id="rfc.section.4.2.4.p.2">However, if all authenticators drop the EAP session for a given EAP peer and EAP server combination, a successful full handshake is not possible. An option in such a scenario would be to cache validated certificate chains even if the EAP-TLS exchange fails, but this is currently not allowed according to <a href="#RFC7924" class="xref">[RFC7924]</a>.  </p>
 <h1 id="rfc.section.4.2.5">
-<a href="#rfc.section.4.2.5">4.2.5.</a> Using Fewer Intermediate Certificates</h1>
-<p id="rfc.section.4.2.5.p.1">The EAP peer certificate chain does not have to mirror the organizational hierarchy. For successful EAP-TLS authentication, certificate chains should not contain more than 2-4 intermediate certificates.  </p>
-<p id="rfc.section.4.2.5.p.2">Administrators responsible for deployments using TLS-based EAP methods can examine the certificate chains and make rough calculations about the number of round trips required for successful authentication. For example, dividing the total size of all the certificates in the peer and server certificate chain by 1020 will indicate the minimum number of round trips required. If this number exceeds 50, then, administrators can expect failures with many common authenticator implementations.  </p>
+<a href="#rfc.section.4.2.5">4.2.5.</a> Compressing Certificates</h1>
+<p id="rfc.section.4.2.5.p.1">The TLS working group is also working on an extension for TLS 1.3 <a href="#I-D.ietf-tls-certificate-compression" class="xref">[I-D.ietf-tls-certificate-compression]</a> that allows compression of certificates and certificate chains during full handshakes. The client can indicate support for compressed server certificates by including this extension in the ClientHello message. Similarly, the server can indicate support for compression of client certificates by including this extension in the CertificateRequest message. While such an extension can alleviate the problem of excessive fragmentation in EAP-TLS, it can only be used with TLS version 1.3 and higher. Deployments that rely on older versions of TLS cannot benefit from this extension.  </p>
+<h1 id="rfc.section.4.2.6">
+<a href="#rfc.section.4.2.6">4.2.6.</a> Suppressing Intermediate Certificates</h1>
+<p id="rfc.section.4.2.6.p.1">For a client that has all intermediates, having the server send intermediates in the TLS handshake increases the size of the handshake unnecessarily. The TLS working group is working on an extension for TLS 1.3 <a href="#I-D.thomson-tls-sic" class="xref">[I-D.thomson-tls-sic]</a> that allows a TLS client that has access to the complete set of published intermediate certificates to inform servers of this fact so that the server can avoid sending intermediates, reducing the size of the TLS handshake. The mechanism is intended to be complementary with certificate compression.  </p>
+<h1 id="rfc.section.4.2.7">
+<a href="#rfc.section.4.2.7">4.2.7.</a> Using Fewer Intermediate Certificates</h1>
+<p id="rfc.section.4.2.7.p.1">The EAP peer certificate chain does not have to mirror the organizational hierarchy. For successful EAP-TLS authentication, certificate chains should not contain more than 2-4 intermediate certificates.  </p>
+<p id="rfc.section.4.2.7.p.2">Administrators responsible for deployments using TLS-based EAP methods can examine the certificate chains and make rough calculations about the number of round trips required for successful authentication. For example, dividing the total size of all the certificates in the peer and server certificate chain by 1020 will indicate the minimum number of round trips required. If this number exceeds 50, then, administrators can expect failures with many common authenticator implementations.  </p>
 <h1 id="rfc.section.4.3">
 <a href="#rfc.section.4.3">4.3.</a> <a href="#update-APs" id="update-APs">Updating Authenticators</a>
 </h1>
@@ -502,7 +514,7 @@ ul.toc li {
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
-<p id="rfc.section.5.p.1">This memo includes no request to IANA.</p>
+<p id="rfc.section.5.p.1">This document includes no request to IANA.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
@@ -517,7 +529,7 @@ ul.toc li {
 <tr>
 <td class="reference"><b id="I-D.ietf-emu-eap-tls13">[I-D.ietf-emu-eap-tls13]</b></td>
 <td class="top">
-<a>Mattsson, J.</a> and <a>M. Sethi</a>, "<a href="https://tools.ietf.org/html/draft-ietf-emu-eap-tls13-08">Using EAP-TLS with TLS 1.3</a>", Internet-Draft draft-ietf-emu-eap-tls13-08, December 2019.</td>
+<a>Mattsson, J.</a> and <a>M. Sethi</a>, "<a href="https://tools.ietf.org/html/draft-ietf-emu-eap-tls13-09">Using EAP-TLS with TLS 1.3</a>", Internet-Draft draft-ietf-emu-eap-tls13-09, March 2020.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
@@ -569,6 +581,11 @@ ul.toc li {
 <a>Ghedini, A.</a> and <a>V. Vasiliev</a>, "<a href="https://tools.ietf.org/html/draft-ietf-tls-certificate-compression-10">TLS Certificate Compression</a>", Internet-Draft draft-ietf-tls-certificate-compression-10, January 2020.</td>
 </tr>
 <tr>
+<td class="reference"><b id="I-D.ietf-tls-ctls">[I-D.ietf-tls-ctls]</b></td>
+<td class="top">
+<a>Rescorla, E.</a>, <a>Barnes, R.</a> and <a>H. Tschofenig</a>, "<a href="https://tools.ietf.org/html/draft-ietf-tls-ctls-00">Compact TLS 1.3</a>", Internet-Draft draft-ietf-tls-ctls-00, April 2020.</td>
+</tr>
+<tr>
 <td class="reference"><b id="I-D.thomson-tls-sic">[I-D.thomson-tls-sic]</b></td>
 <td class="top">
 <a>Thomson, M.</a>, "<a href="https://tools.ietf.org/html/draft-thomson-tls-sic-00">Suppressing Intermediate Certificates in TLS</a>", Internet-Draft draft-thomson-tls-sic-00, March 2019.</td>
@@ -592,6 +609,11 @@ ul.toc li {
 <td class="reference"><b id="RFC5289">[RFC5289]</b></td>
 <td class="top">
 <a>Rescorla, E.</a>, "<a href="https://tools.ietf.org/html/rfc5289">TLS Elliptic Curve Cipher Suites with SHA-256/384 and AES Galois Counter Mode (GCM)</a>", RFC 5289, DOI 10.17487/RFC5289, August 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6066">[RFC6066]</b></td>
+<td class="top">
+<a>Eastlake 3rd, D.</a>, "<a href="https://tools.ietf.org/html/rfc6066">Transport Layer Security (TLS) Extensions: Extension Definitions</a>", RFC 6066, DOI 10.17487/RFC6066, January 2011.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC6090">[RFC6090]</b></td>
