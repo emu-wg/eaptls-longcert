@@ -67,7 +67,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		</t>
 
 		<t>
-			TLS certificates in EAP deployments can be relatively large, and the certificate chains can be long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticates both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. This is because EAP peers often follow organizational hierarchies and tend to have many intermediate certificates. Thus, EAP-TLS authentication usually involve significantly more octets than when TLS is used as part of HTTPS.
+			Certificates in EAP deployments can be relatively large, and the certificate chains can be long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticates both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. This is because EAP peers often follow organizational hierarchies and tend to have many intermediate certificates. Thus, EAP-TLS authentication usually involves significantly more octets than when TLS is used as part of HTTPS.
 		</t>
 
 		<t>
@@ -120,15 +120,15 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		</t>
 
 		<t>
-		A certificate chain (called a certification path in <xref target="RFC5280"/>) can have 2 - 6 intermediate certificates between the end-entity certificate and the trust anchor.
+			A certificate chain (called a certification path in <xref target="RFC5280"/>) can have 2 - 6 intermediate certificates between the end-entity certificate and the trust anchor.
 		</t>
 
 		<t>
-		Many access point implementations drop EAP sessions that do not complete within 50 round-trips. This means that if the chain is larger than ~ 60 kB, EAP-TLS authentication cannot complete successfully in most deployments.
+			Many access point implementations drop EAP sessions that do not complete within 50 round-trips. This means that if the chain is larger than ~ 60 kB, EAP-TLS authentication cannot complete successfully in most deployments.
 		</t>
 	</section>
 
-	<section title="Handling of Large Certificates and Long Certificate Chains">
+	<section title="Handling of Large Certificates and Long Certificate Chains" anchor="handle-large-cert-long-chain">
 		<t>
 		This section discusses some possible alternatives for overcoming the challenge of large certificates and long certificate chains in EAP-TLS authentication. In <xref target="update-certs"/> we look at recommendations that require an update of the certificates or certificate chains that are used for EAP-TLS authentication without requiring changes to the existing EAP-TLS code base. We also provide some guidelines when issuing certificates for use with EAP-TLS. In <xref target="update-code"/> we look at recommendations that rely on updates to the EAP-TLS implementations which can be deployed with existing certificates. In <xref target="update-APs"/> we shortly discuss the solution to update or reconfigure authenticator which can be deployed without changes to existing certificates or EAP-TLS code.
 		</t>
@@ -138,9 +138,8 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			Many IETF protocols now use elliptic curve cryptography (ECC) <xref target="RFC6090"/> for the underlying cryptographic operations. The use of ECC can reduce the size of certificates and signatures. For example, at a 128-bit security level, the size of public keys with traditional RSA is about 384 bytes, while the size of public keys with ECC is only 32-64 bytes. Similarly, the size of digital signatures with traditional RSA is 384 bytes, while the size is only 64 bytes with elliptic curve digital signature algorithm (ECDSA) and Edwards-curve digital signature algorithm (EdDSA) <xref target="RFC8032"/>. Using certificates that use ECC can reduce the number of messages in EAP-TLS authentication which can alleviate the problem of authenticators dropping an EAP session because of too many round-trips. TLS 1.3 <xref target="RFC8446"/> requires implementations to support ECC. New cipher suites that use ECC are also specified for TLS 1.2 <xref target="RFC5289"/>. Using ECC based cipher suites with existing code can significantly reduce the number of messages in a single EAP session.
 			</t>
 
-			<section title="Guidelines for certificates" anchor="cert-guide">
-				<t>
-				This section provides some recommendations for certificates used for EAP-TLS authentication:
+			<section title="Guidelines for Certificates" anchor="cert-guide">
+				<t>The general guideline of keeping the certificate size small by not populating fields with excessive information can help avert the problems of failed EAP-TLS authentication. More specific recommendations for certificates used with EAP-TLS is as follows:
 					<list style="symbols">
 						<t>
 						Object Identifiers (OIDs) is ASN.1 data type that defines unique identifiers for objects. The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate. The DER length for the 1st two integers is always one octet and subsequent integers are base 128-encoded in the fewest possible octets. OIDs are used lavishly in X.509 certificates and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer’s control:
@@ -163,10 +162,14 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 					</list>
 				</t>
 			</section>
+			<section title="New Certificate Types and Compression Algorithms" anchor="new-cert-format">
+				<t>There is ongoing work to specify new certificate types and compression algorithms. For example, <xref target="I-D.mattsson-tls-cbor-cert-compress"/> defines a compression algorithm for certificates that relies on Concise Binary Object Representation (CBOR) <xref target="RFC7049"/>. <xref target="I-D.tschofenig-tls-cwt"/> registers a new TLS Certificate type which would enable TLS implementations to use CBOR Web Tokens (CWTs) <xref target="RFC8392"/> as certificates. While these are early initiatives, future EAP-TLS deployments can consider the use of these new certificate types and compression algorithms to avoid large message sizes.
+				</t>
+			</section>
 		</section>
 
-		<section title="Updating TLS and EAP-TLS Code" anchor="update-code">
-			<section title="Pre-distributing and Omitting CA Certificates">
+		<section title="Updating TLS and EAP-TLS code" anchor="update-code">
+			<section title="Pre-distributing and Omitting CA certificates">
 				<t>
 				The TLS Certificate message conveys the sending endpoint's certificate chain. TLS allows endpoints to reduce the size of the Certificate message by omitting certificates that the other endpoint is known to possess. When using TLS 1.3, all certificates that specify a trust anchor known by the other endpoint may be omitted (see Section 4.4.2 of <xref target="RFC8446"/>). When using TLS 1.2 or earlier, only the self-signed certificate that specifies the root certificate authority may be omitted (see Section 7.4.2 of <xref target="RFC5246"/> Therefore, updating TLS implementations to version 1.3 can help to significantly reduce the number of messages exchanged for EAP-TLS authentication. The omitted certificates need to be pre-distributed independently of TLS and the TLS implementations need to be configured to omit these pre-distributed certificates.
 				</t>
@@ -177,7 +180,6 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 				<xref target="RFC6066"/> defines the "client_certificate_url" extension which allows TLS clients to send a sequence of Uniform Resource Locators (URLs) instead of the client certificate. URLs can refer to a single certificate or a certificate chain. Using this extension can curtail the amount of fragmentation in EAP deployments thereby allowing EAP sessions to successfully complete.
 				</t>
 			</section>
-
 			<section title="Compact TLS 1.3">
 				<t>
 				<xref target="I-D.ietf-tls-ctls"/> defines a "compact" version of TLS 1.3 and reduces the message size of the protocol by removing obsolete material and using more efficient encoding. This naturally means that cTLS is not interoperable with previous versions of the TLS protocol. It also defines a compression profile with which either side can define dictionary of "known certificates". Thus, cTLS can provide another mechanism for EAP-TLS deployments to reduce the size of messages and avoid excessive fragmentation.
@@ -187,7 +189,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
 			<section title="Caching Certificates">
 				<t>
-				The TLS Cached Information Extension <xref target="RFC7924"/> specifies an extension where a server can exclude transmission of certificate information cached in an earlier TLS handshake. The client and the server would first execute the full TLS handshake. The client would then cache the certificate provided by the server. When the TLS client later connects to the same TLS server without using session resumption, it can attach the "cached_info" extension to the ClientHello message. This would allow the client to indicate that it has cached the certificate. The client would also include a fingerprint of the server certificate chain. If the server's certificate has not changed, then the server does not need to send its certificate and the corresponding certificate chain again. In case information has changed, which can be seen from the fingerprint provided by the client, the certificate payload is transmitted to the client to allow the client to update the cache. The extension however necessitates a successful full handshake before any caching. This extension can be useful when, for example, when a successful authentication between an EAP peer and EAP server has occurred in the home network. If authenticators in a roaming network are more strict at dropping long EAP sessions, an EAP peer can use the Cached Information Extension to reduce the total number of messages.
+					The TLS Cached Information Extension <xref target="RFC7924"/> specifies an extension where a server can exclude transmission of certificate information cached in an earlier TLS handshake. The client and the server would first execute the full TLS handshake. The client would then cache the certificate provided by the server. When the TLS client later connects to the same TLS server without using session resumption, it can attach the "cached_info" extension to the ClientHello message. This would allow the client to indicate that it has cached the certificate. The client would also include a fingerprint of the server certificate chain. If the server's certificate has not changed, then the server does not need to send its certificate and the corresponding certificate chain again. In case information has changed, which can be seen from the fingerprint provided by the client, the certificate payload is transmitted to the client to allow the client to update the cache. The extension however necessitates a successful full handshake before any caching. This extension can be useful when, for example, when a successful authentication between an EAP peer and EAP server has occurred in the home network. If authenticators in a roaming network are more strict at dropping long EAP sessions, an EAP peer can use the Cached Information Extension to reduce the total number of messages.
 				</t>
 
 				<t>
@@ -207,7 +209,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			</section>
 			<section title="Using Fewer Intermediate Certificates">
 				<t>
-					The EAP peer certificate chain does not have to mirror the organizational hierarchy. For successful EAP-TLS authentication, certificate chains should not contain more than 2-4 intermediate certificates.
+					The EAP peer certificate chain does not have to mirror the organizational hierarchy. For successful EAP-TLS authentication, certificate chains SHOULD NOT contain more than 2-4 intermediate certificates.
 				</t>
 				<t>
 					Administrators responsible for deployments using TLS-based EAP methods can examine the certificate chains and make rough calculations about the number of round trips required for successful authentication. For example, dividing the total size of all the certificates in the peer and server certificate chain by 1020 will indicate the minimum number of round trips required. If this number exceeds 50, then, administrators can expect failures with many common authenticator implementations.
@@ -271,9 +273,13 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		<?rfc include='reference.RFC.8032'?> <!-- EdDSA -->
 		<?rfc include='reference.RFC.5246'?> <!-- TLS 1.2 -->
 		<?rfc include='reference.RFC.8446'?> <!-- TLS 1.3 -->
+		<?rfc include='reference.RFC.8392'?> <!-- CBOR Web Token -->
+		<?rfc include='reference.RFC.7049'?> <!-- CBOR -->
 		<?rfc include='reference.I-D.ietf-tls-certificate-compression'?> <!-- TLS 1.3 extension -->
 		<?rfc include='reference.I-D.thomson-tls-sic'?> <!-- TLS 1.3 extension -->
 		<?rfc include='reference.I-D.ietf-tls-ctls'?> <!-- Compact TLS 1.3  -->
+		<?rfc include='reference.I-D.tschofenig-tls-cwt'?>
+		<?rfc include='reference.I-D.mattsson-tls-cbor-cert-compress'?>
 		
 		<reference anchor="IEEE-802.1X">
 			<front>
