@@ -212,7 +212,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 					The EAP peer certificate chain does not have to mirror the organizational hierarchy. For successful EAP-TLS authentication, certificate chains SHOULD NOT contain more than 2-4 intermediate certificates.
 				</t>
 				<t>
-					Administrators responsible for deployments using TLS-based EAP methods can examine the certificate chains and make rough calculations about the number of round trips required for successful authentication. For example, dividing the total size of all the certificates in the peer and server certificate chain by 1020 will indicate the minimum number of round trips required. If this number exceeds 50, then, administrators can expect failures with many common authenticator implementations.
+					Administrators responsible for deployments using TLS-based EAP methods can examine the certificate chains and make rough calculations about the number of round trips required for successful authentication. For example, dividing the total size of all the certificates in the peer and server certificate chain (in bytes) by 1020 bytes will indicate the minimum number of round trips required. If this number exceeds 50, then, administrators can expect failures with many common authenticator implementations.
 				</t>
 			</section>
 		</section>
