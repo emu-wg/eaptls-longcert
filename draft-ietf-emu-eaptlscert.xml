@@ -120,7 +120,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		</t>
 
 		<t>
-			A certificate chain (called a certification path in <xref target="RFC5280"/>) can have 2 - 6 intermediate certificates between the end-entity certificate and the trust anchor.
+			A certificate chain (called a certification path in <xref target="RFC5280"/>) can commonly have 2 - 6 intermediate certificates between the end-entity certificate and the trust anchor.
 		</t>
 
 		<t>
@@ -142,7 +142,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 				<t>The general guideline of keeping the certificate size small by not populating fields with excessive information can help avert the problems of failed EAP-TLS authentication. More specific recommendations for certificates used with EAP-TLS is as follows:
 					<list style="symbols">
 						<t>
-						Object Identifiers (OIDs) is ASN.1 data type that defines unique identifiers for objects. The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate. The DER length for the 1st two integers is always one octet and subsequent integers are base 128-encoded in the fewest possible octets. OIDs are used lavishly in X.509 certificates and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer’s control:
+						Object Identifiers (OIDs) is ASN.1 data type that defines unique identifiers for objects. The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate. The DER length for the first two integers is always one octet and subsequent integers are base 128-encoded in the fewest possible octets. OIDs are used lavishly in X.509 certificates and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer’s control:
 							<list style="symbols">
 								<t>
 								Each naming attribute in a DN (Directory Name) has one. DNs used in the issuer and subject fields as well as numerous extensions. A shallower naming will be smaller, e.g., C=FI, O=Example, SN=B0A123499EFC vs C=FI, O=Example, OU=Division 1, SOPN=Southern Finland, CN=Coolest IoT Gadget Ever, SN=B0A123499EFC.
@@ -186,7 +186,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			</section>
 			<section title="Caching Certificates">
 				<t>
-					The TLS Cached Information Extension <xref target="RFC7924"/> specifies an extension where a server can exclude transmission of certificate information cached in an earlier TLS handshake. The client and the server would first execute the full TLS handshake. The client would then cache the certificate provided by the server. When the TLS client later connects to the same TLS server without using session resumption, it can attach the "cached_info" extension to the ClientHello message. This would allow the client to indicate that it has cached the certificate. The client would also include a fingerprint of the server certificate chain. If the server's certificate has not changed, then the server does not need to send its certificate and the corresponding certificate chain again. In case information has changed, which can be seen from the fingerprint provided by the client, the certificate payload is transmitted to the client to allow the client to update the cache. The extension however necessitates a successful full handshake before any caching. This extension can be useful when, for example, when a successful authentication between an EAP peer and EAP server has occurred in the home network. If authenticators in a roaming network are more strict at dropping long EAP sessions, an EAP peer can use the Cached Information Extension to reduce the total number of messages.
+					The TLS Cached Information Extension <xref target="RFC7924"/> specifies an extension where a server can exclude transmission of certificate information cached in an earlier TLS handshake. The client and the server would first execute the full TLS handshake. The client would then cache the certificate provided by the server. When the TLS client later connects to the same TLS server without using session resumption, it can attach the "cached_info" extension to the ClientHello message. This would allow the client to indicate that it has cached the certificate. The client would also include a fingerprint of the server certificate chain. If the server's certificate has not changed, then the server does not need to send its certificate and the corresponding certificate chain again. In case information has changed, which can be seen from the fingerprint provided by the client, the certificate payload is transmitted to the client to allow the client to update the cache. The extension however necessitates a successful full handshake before any caching. This extension can be useful when, for example, when a successful authentication between an EAP peer and EAP server has occurred in the home network. If authenticators in a roaming network are stricter at dropping long EAP sessions, an EAP peer can use the Cached Information Extension to reduce the total number of messages.
 				</t>
 				<t>
 					However, if all authenticators drop the EAP session for a given EAP peer and EAP server combination, a successful full handshake is not possible. An option in such a scenario would be to cache validated certificate chains even if the EAP-TLS exchange fails, but this is currently not allowed according to <xref target="RFC7924"/>.
@@ -221,7 +221,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
 		<section title="Updating Authenticators" anchor="update-APs">
 			<t>
-				There are several legitimate reasons that authenticators may want to limit the number of round-trips/packets/octets that can be sent. The main reason has been to work around issues where the EAP peer and EAP server end up in an infinite loop ACKing their messages. Another second reason is that unlimited communication from an unauthenticated device as EAP could otherwise be use for bulk data transfer. A third reason is to prevent denial-of-service attacks.
+				There are several legitimate reasons that authenticators may want to limit the number of round-trips/packets/octets that can be sent. The main reason has been to work around issues where the EAP peer and EAP server end up in an infinite loop ACKing their messages. Another reason is that unlimited communication over EAP from an unauthenticated device could otherwise be used for bulk data transfer. A third reason is to prevent denial-of-service attacks.
 			</t>
 
 			<t>
@@ -229,7 +229,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			</t>
 
 			<t>
-				Vendors making new authenticators should consider increasing the number of round-trips allowed to 100 before denying the EAP authentication to complete. At the same time, administrators responsible for EAP deployments should ensure that this 100 roundtrip limit is not exceeded in practice.
+				Vendors making new authenticators should consider increasing the number of round-trips allowed to 100 before denying the EAP authentication to complete. Based on the size of the certificates and certificate chains currently deployed, such an increase would likely ensure that peers and servers can complete EAP-TLS authentication. At the same time, administrators responsible for EAP deployments should ensure that this 100 roundtrip limit is not exceeded in practice.
 			</t>
 		</section>
 	</section>
