@@ -235,17 +235,17 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
    This section discusses some possible alternatives for overcoming the
    challenge of large certificates and long certificate chains in EAP-
-   TLS authentication.  Section Section 4.1 considers recommendations
-   that require an update of the certificates or certificate chains used
-   for EAP-TLS authentication without requiring changes to the existing
-   EAP-TLS code base.  The section also provides some guidelines that
-   should be followed when issuing certificates for use with EAP-TLS.
-   Section 4.2 considers recommendations that rely on updates to the
-   EAP-TLS implementations and can be deployed with existing
-   certificates.  Finally, Section 4.3 briefly discusses what could be
-   done to update or reconfigure authenticators when it is infeasible to
-   replace deployed components giving a solution which can be deployed
-   without changes to existing certificates or code.
+   TLS authentication.  Section 4.1 considers recommendations that
+   require an update of the certificates or certificate chains used for
+   EAP-TLS authentication without requiring changes to the existing EAP-
+   TLS code base.  It also provides some guidelines that should be
+   followed when issuing certificates for use with EAP-TLS.  Section 4.2
+   considers recommendations that rely on updates to the EAP-TLS
+   implementations and can be deployed with existing certificates.
+   Finally, Section 4.3 briefly discusses what could be done to update
+   or reconfigure authenticators when it is infeasible to replace
+   deployed components giving a solution which can be deployed without
+   changes to existing certificates or code.
 
 4.1.  Updating Certificates and Certificate Chains
 
