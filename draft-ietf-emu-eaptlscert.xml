@@ -122,7 +122,9 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		<t>
 			A certificate chain (called a certification path in <xref target="RFC5280"/>) can commonly have 2 - 6 intermediate certificates between the end-entity certificate and the trust anchor.
 		</t>
-
+		<t>
+			The size of certificates (and certificate chains) may also increase manifold in the future with the introduction of quantum-safe cryptography. For example, lattice-based cryptography would have public keys of approximately 1000 bytes and signatures of approximately 2000 bytes.
+		</t>
 		<t>
 			Many access point implementations drop EAP sessions that do not complete within 50 round-trips. This means that if the chain is larger than ~ 60 kbytes, EAP-TLS authentication cannot complete successfully in most deployments.
 		</t>
@@ -205,6 +207,9 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			<section title="Suppressing Intermediate Certificates">
 				<t>
 					For a client that has all intermediate certificates in the certificate chain, having the server send intermediates in the TLS handshake increases the size of the handshake unnecessarily. The TLS working group is working on an extension for TLS 1.3 <xref target="I-D.thomson-tls-sic"/> that allows a TLS client that has access to the complete set of published intermediate certificates to inform servers of this fact so that the server can avoid sending intermediates, reducing the size of the TLS handshake. The mechanism is intended to be complementary with certificate compression.
+				</t>
+				<t>
+					The Authority Information Access (AIA) extension specified in <xref target="RFC5280"/> can be used with end-entity and CA certificates to access information about the issuer of the certificate in which the extension appears. For example, it can be used to provide the address of the OCSP responder from where revocation status of the certificate (in which the extension appears) can be checked. It can also be used to obtain the issuer certificate. Thus, the AIA extension can reduce the size of the certificate chain by only including a pointer to the issuer certificate instead of including the entire issuer certificate. However, it requires the side receiving the certificate containing the extension to have network connectivity. Naturally, such indirection cannot be used for the server certificate (since the EAP peer in most deployments does not have network connectivity before authentication).
 				</t>
 			</section>
 			<section title="Raw Public Keys">
