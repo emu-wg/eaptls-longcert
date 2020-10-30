@@ -73,24 +73,24 @@ Table of Contents
    3.  Experience with Deployments . . . . . . . . . . . . . . . . .   4
    4.  Handling of Large Certificates and Long Certificate Chains  .   5
      4.1.  Updating Certificates and Certificate Chains  . . . . . .   5
-       4.1.1.  Guidelines for Certificates . . . . . . . . . . . . .   5
+       4.1.1.  Guidelines for Certificates . . . . . . . . . . . . .   6
        4.1.2.  Pre-distributing and Omitting CA certificates . . . .   7
        4.1.3.  Using Fewer Intermediate Certificates . . . . . . . .   7
      4.2.  Updating TLS and EAP-TLS Code . . . . . . . . . . . . . .   7
-       4.2.1.  URLs for Client Certificates  . . . . . . . . . . . .   7
+       4.2.1.  URLs for Client Certificates  . . . . . . . . . . . .   8
        4.2.2.  Caching Certificates  . . . . . . . . . . . . . . . .   8
        4.2.3.  Compressing Certificates  . . . . . . . . . . . . . .   8
        4.2.4.  Compact TLS 1.3 . . . . . . . . . . . . . . . . . . .   9
        4.2.5.  Suppressing Intermediate Certificates . . . . . . . .   9
        4.2.6.  Raw Public Keys . . . . . . . . . . . . . . . . . . .   9
-       4.2.7.  New Certificate Types and Compression Algorithms  . .   9
+       4.2.7.  New Certificate Types and Compression Algorithms  . .  10
      4.3.  Updating Authenticators . . . . . . . . . . . . . . . . .  10
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
      7.2.  Informative References  . . . . . . . . . . . . . . . . .  12
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  14
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
@@ -226,6 +226,12 @@ Sethi, et al.              Expires May 3, 2021                  [Page 4]
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
 
+   The size of certificates (and certificate chains) may also increase
+   manifold in the future with the introduction of quantum-safe
+   cryptography.  For example, lattice-based cryptography would have
+   public keys of approximately 1000 bytes and signatures of
+   approximately 2000 bytes.
+
    Many access point implementations drop EAP sessions that do not
    complete within 50 round-trips.  This means that if the chain is
    larger than ~ 60 kbytes, EAP-TLS authentication cannot complete
@@ -267,12 +273,6 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    ECC-based cipher suites with existing code can significantly reduce
    the number of messages in a single EAP session.
 
-4.1.1.  Guidelines for Certificates
-
-   The general guideline of keeping the certificate size small by not
-   populating fields with excessive information can help avert the
-   problems of failed EAP-TLS authentication.  More specific
-   recommendations for certificates used with EAP-TLS are as follows:
 
 
 
@@ -281,6 +281,13 @@ Sethi, et al.              Expires May 3, 2021                  [Page 5]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
+
+4.1.1.  Guidelines for Certificates
+
+   The general guideline of keeping the certificate size small by not
+   populating fields with excessive information can help avert the
+   problems of failed EAP-TLS authentication.  More specific
+   recommendations for certificates used with EAP-TLS are as follows:
 
    o  Object Identifiers (OIDs) is an ASN.1 data type that defines
       unique identifiers for objects.  The OID's ASN.1 value, which is a
@@ -323,13 +330,6 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
    o  As stated earlier, certificate chains of the EAP peer often follow
       organizational hierarchies.  In such cases, information in
-      intermediate certificates (such as postal addresses) do not
-      provide any additional value and they can be shortened (for
-      example: only including the department name instead of the full
-      postal address).
-
-
-
 
 
 
@@ -337,6 +337,11 @@ Sethi, et al.              Expires May 3, 2021                  [Page 6]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
+
+      intermediate certificates (such as postal addresses) do not
+      provide any additional value and they can be shortened (for
+      example: only including the department name instead of the full
+      postal address).
 
 4.1.2.  Pre-distributing and Omitting CA certificates
 
@@ -377,14 +382,9 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    in many cases the new feature may already be implemented in the
    underlying library and simply needs to be taken into use.
 
-4.2.1.  URLs for Client Certificates
 
-   [RFC6066] defines the "client_certificate_url" extension which allows
-   TLS clients to send a sequence of Uniform Resource Locators (URLs)
-   instead of the client certificate.  URLs can refer to a single
-   certificate or a certificate chain.  Using this extension can curtail
-   the amount of fragmentation in EAP deployments thereby allowing EAP
-   sessions to successfully complete.
+
+
 
 
 
@@ -393,6 +393,15 @@ Sethi, et al.              Expires May 3, 2021                  [Page 7]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
+
+4.2.1.  URLs for Client Certificates
+
+   [RFC6066] defines the "client_certificate_url" extension which allows
+   TLS clients to send a sequence of Uniform Resource Locators (URLs)
+   instead of the client certificate.  URLs can refer to a single
+   certificate or a certificate chain.  Using this extension can curtail
+   the amount of fragmentation in EAP deployments thereby allowing EAP
+   sessions to successfully complete.
 
 4.2.2.  Caching Certificates
 
@@ -433,15 +442,6 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    including this extension in the ClientHello message.  Similarly, the
    server can indicate support for compression of client certificates by
    including this extension in the CertificateRequest message.  While
-   such an extension can alleviate the problem of excessive
-   fragmentation in EAP-TLS, it can only be used with TLS version 1.3
-   and higher.  Deployments that rely on older versions of TLS cannot
-   benefit from this extension.
-
-
-
-
-
 
 
 
@@ -449,6 +449,11 @@ Sethi, et al.              Expires May 3, 2021                  [Page 8]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
+
+   such an extension can alleviate the problem of excessive
+   fragmentation in EAP-TLS, it can only be used with TLS version 1.3
+   and higher.  Deployments that rely on older versions of TLS cannot
+   benefit from this extension.
 
 4.2.4.  Compact TLS 1.3
 
@@ -472,12 +477,35 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    reducing the size of the TLS handshake.  The mechanism is intended to
    be complementary with certificate compression.
 
+   The Authority Information Access (AIA) extension specified in
+   [RFC5280] can be used with end-entity and CA certificates to access
+   information about the issuer of the certificate in which the
+   extension appears.  For example, it can be used to provide the
+   address of the OCSP responder from where revocation status of the
+   certificate (in which the extension appears) can be checked.  It can
+   also be used to obtain the issuer certificate.  Thus, the AIA
+   extension can reduce the size of the certificate chain by only
+   including a pointer to the issuer certificate instead of including
+   the entire issuer certificate.  However, it requires the side
+   receiving the certificate containing the extension to have network
+   connectivity.  Naturally, such indirection cannot be used for the
+   server certificate (since the EAP peer in most deployments does not
+   have network connectivity before authentication).
+
 4.2.6.  Raw Public Keys
 
    [RFC7250] defines a new certificate type and TLS extensions to enable
    the use of raw public keys for authentication.  Raw public keys use
    only a subset of information found in typical certificates and are
    therefore much smaller in size.  However, raw public keys require an
+
+
+
+Sethi, et al.              Expires May 3, 2021                  [Page 9]
+
+Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
+
+
    out-of-band mechanism to bind the public key with the entity
    presenting the key.  Using raw public keys will obviously avoid the
    fragmentation problems resulting from large certificates and long
@@ -497,14 +525,6 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    initiatives, future EAP-TLS deployments can consider the use of these
    new certificate types and compression algorithms to avoid large
    message sizes.
-
-
-
-
-Sethi, et al.              Expires May 3, 2021                  [Page 9]
-
-Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
-
 
 4.3.  Updating Authenticators
 
@@ -531,6 +551,17 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    deployments should ensure that this 100 roundtrip limit is not
    exceeded in practice.
 
+
+
+
+
+
+
+Sethi, et al.              Expires May 3, 2021                 [Page 10]
+
+Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
+
+
 5.  IANA Considerations
 
    This document includes no request to IANA.
@@ -550,17 +581,6 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    identify which clients believe that they have all intermediates.
    This might also allow more effective fingerprinting and tracking of
    clients.
-
-
-
-
-
-
-
-Sethi, et al.              Expires May 3, 2021                 [Page 10]
-
-Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
-
 
 7.  References
 
@@ -591,6 +611,13 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
               Authentication Protocol", RFC 5216, DOI 10.17487/RFC5216,
               March 2008, <https://www.rfc-editor.org/info/rfc5216>.
 
+
+
+Sethi, et al.              Expires May 3, 2021                 [Page 11]
+
+Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
+
+
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
               Housley, R., and W. Polk, "Internet X.509 Public Key
               Infrastructure Certificate and Certificate Revocation List
@@ -607,16 +634,6 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
               "Tunnel Extensible Authentication Protocol (TEAP) Version
               1", RFC 7170, DOI 10.17487/RFC7170, May 2014,
               <https://www.rfc-editor.org/info/rfc7170>.
-
-
-
-
-
-
-Sethi, et al.              Expires May 3, 2021                 [Page 11]
-
-Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
-
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -645,6 +662,18 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
               TLS", draft-thomson-tls-sic-00 (work in progress), March
               2019.
 
+
+
+
+
+
+
+
+Sethi, et al.              Expires May 3, 2021                 [Page 12]
+
+Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
+
+
    [I-D.tschofenig-tls-cwt]
               Tschofenig, H. and M. Brossard, "Using CBOR Web Tokens
               (CWTs) in Transport Layer Security (TLS) and Datagram
@@ -666,13 +695,6 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
               (TLS) Protocol Version 1.2", RFC 5246,
               DOI 10.17487/RFC5246, August 2008,
               <https://www.rfc-editor.org/info/rfc5246>.
-
-
-
-Sethi, et al.              Expires May 3, 2021                 [Page 12]
-
-Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
-
 
    [RFC5289]  Rescorla, E., "TLS Elliptic Curve Cipher Suites with SHA-
               256/384 and AES Galois Counter Mode (GCM)", RFC 5289,
@@ -699,6 +721,15 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
               Layer Security (DTLS)", RFC 7250, DOI 10.17487/RFC7250,
               June 2014, <https://www.rfc-editor.org/info/rfc7250>.
 
+
+
+
+
+Sethi, et al.              Expires May 3, 2021                 [Page 13]
+
+Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
+
+
    [RFC7924]  Santesson, S. and H. Tschofenig, "Transport Layer Security
               (TLS) Cached Information Extension", RFC 7924,
               DOI 10.17487/RFC7924, July 2016,
@@ -723,13 +754,6 @@ Acknowledgements
    Bernard Aboba, Jari Arkko, Jouni Malinen, Darshak Thakore, and Hannes
    Tschofening.
 
-
-
-Sethi, et al.              Expires May 3, 2021                 [Page 13]
-
-Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
-
-
 Authors' Addresses
 
    Mohit Sethi
@@ -752,30 +776,6 @@ Authors' Addresses
    sn3rd
 
    Email: sean@sn3rd.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
