@@ -63,15 +63,15 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <middle>
 	<section title="Introduction">
 		<t>
-			The Extensible Authentication Protocol (EAP), defined in <xref target="RFC3748"/>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <xref target="RFC5216"/> <xref target="I-D.ietf-emu-eap-tls13"/> relies on TLS <xref target="RFC8446"/> to provide strong mutual authentication with certificates <xref target="RFC5280"/> and is widely deployed and often used for network access authentication. There are also many other TLS-based EAP methods, such as Flexible Authentication via Secure Tunneling (EAP-FAST) <xref target="RFC4851"/>, Tunneled Transport Layer Security (EAP-TTLS) <xref target="RFC5281"/>, Tunnel Extensible Authentication Protocol (EAP-TEAP) <xref target="RFC7170"/>, and possibly many vendor specific EAP methods.
+			The Extensible Authentication Protocol (EAP), defined in <xref target="RFC3748"/>, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) <xref target="RFC5216"/> <xref target="I-D.ietf-emu-eap-tls13"/> relies on TLS <xref target="RFC8446"/> to provide strong mutual authentication with certificates <xref target="RFC5280"/> and is widely deployed and often used for network access authentication. There are also many other TLS-based EAP methods, such as Flexible Authentication via Secure Tunneling (EAP-FAST) <xref target="RFC4851"/>, Tunneled Transport Layer Security (EAP-TTLS) <xref target="RFC5281"/>, Tunnel Extensible Authentication Protocol (EAP-TEAP) <xref target="RFC7170"/>, and possibly many vendor-specific EAP methods.
 		</t>
 
 		<t>
-			Certificates in EAP deployments can be relatively large, and the certificate chains can be long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticates both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. This is because EAP peers often follow organizational hierarchies and tend to have many intermediate certificates. Thus, EAP-TLS authentication usually involves exchange of significantly more octets than when TLS is used as part of HTTPS.
+			Certificates in EAP deployments can be relatively large, and the certificate chains can be long. Unlike the use of TLS on the web, where typically only the TLS server is authenticated; EAP-TLS deployments typically authenticate both the EAP peer and the EAP server. Also, from deployment experience, EAP peers typically have longer certificate chains than servers. This is because EAP peers often follow organizational hierarchies and tend to have many intermediate certificates. Thus, EAP-TLS authentication usually involves exchange of significantly more octets than when TLS is used as part of HTTPS.
 		</t>
 
 		<t>
-			Section 3.1 of <xref target="RFC3748"/> states that EAP implementations can assume a MTU of at least 1020 octets from lower layers. The EAP fragment size in typical deployments is just 1020 - 1500 octets (since the maximum Ethernet frame size is ~ 1500 bytes). Thus, EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower layers. Such fragmentation can not only negatively affect the latency, but also results in other challenges. For example, some EAP authenticator (access point) implementations will drop an EAP session if it has not finished after 40 - 50 round-trips. This is a major problem and means that in many situations, the EAP peer cannot perform network access authentication even though both the sides have valid credentials for successful authentication and key derivation.
+			Section 3.1 of <xref target="RFC3748"/> states that EAP implementations can assume a Maximum Transmission Unit (MTU) of at least 1020 octets from lower layers. The EAP fragment size in typical deployments is just 1020 - 1500 octets (since the maximum Ethernet frame size is ~ 1500 bytes). Thus, EAP-TLS authentication needs to be fragmented into many smaller packets for transportation over the lower layers. Such fragmentation not only can negatively affect the latency, but also results in other challenges. For example, some EAP authenticator (access point) implementations will drop an EAP session if it has not finished after 40 - 50 round-trips. This is a major problem and means that in many situations, the EAP peer cannot perform network access authentication even though both the sides have valid credentials for successful authentication and key derivation.
 		</t>
 		<t>
 			Not all EAP deployments are constrained by the MTU of the lower layer. For example, some implementations support EAP over Ethernet "Jumbo" frames that can easily allow very large EAP packets. Larger packets will naturally help lower the number of round trips required for successful EAP-TLS authentication. However, deployment experience has shown that these jumbo frames are not always implemented correctly. Additionally, EAP fragment size is also restricted by protocols such as RADIUS <xref target="RFC2865"/> which are responsible for transporting EAP messages between an authenticator and an EAP server. RADIUS can generally transport only about 4000 octets of EAP in a single message (the maximum length of RADIUS packet is restricted to 4096 octets in <xref target="RFC2865"/>).
@@ -101,21 +101,21 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 					The entity that terminates the EAP authentication method with the peer. In the case where no backend authentication server is used, the EAP server is part of the authenticator. In the case where the authenticator operates in pass-through mode, the EAP server is located on the backend authentication server. In EAP-TLS, the EAP server implements the TLS server role.
 					</t>
 				</list>
-			The document additionally uses the terms trust anchor and certification path defined in <xref target="RFC5280"/>.
+			The document additionally uses the terms "trust anchor" and "certification path" defined in <xref target="RFC5280"/>.
 		</t>
 	</section>
 
 	<section title="Experience with Deployments">
 		<t>
-		As stated earlier, the EAP fragment size in typical deployments is just 1020 - 1500 octets. Certificate sizes can however be large for a number of reasons:
+		As stated earlier, the EAP fragment size in typical deployments is just 1020 - 1500 octets. A certificate can, however, be large for a number of reasons:
 			<list style="symbols">
-				<t>Long Subject Alternative Name field.</t>
+				<t>It can have a long Subject Alternative Name field.</t>
 
-				<t>Long Public Key and Signature fields.</t>
+				<t>It can have long Public Key and Signature fields.</t>
 
-				<t>Can contain multiple object identifiers (OID) that indicate the permitted uses of the certificate as noted in Section 5.3 of <xref target="RFC5216"/>. Most implementations verify the presence of these OIDs for successful authentication.</t>
+				<t>It can contain multiple object identifiers (OID) that indicate the permitted uses of the certificate as noted in Section 5.3 of <xref target="RFC5216"/>. Most implementations verify the presence of these OIDs for successful authentication.</t>
 
-				<t>Multiple user groups in the certificate.</t>
+				<t>It can contain multiple user groups.</t>
 			</list>
 		</t>
 
@@ -135,7 +135,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		
 		<section title="Updating Certificates and Certificate Chains" anchor="update-certs">
 			<t>
-				Many IETF protocols now use elliptic curve cryptography (ECC) <xref target="RFC6090"/> for the underlying cryptographic operations. The use of ECC can reduce the size of certificates and signatures. For example, at a 128-bit security level, the size of public keys with traditional RSA is about 384 bytes, while the size of public keys with ECC is only 32-64 bytes. Similarly, the size of digital signatures with traditional RSA is 384 bytes, while the size is only 64 bytes with elliptic curve digital signature algorithm (ECDSA) and Edwards-curve digital signature algorithm (EdDSA) <xref target="RFC8032"/>. Using certificates that use ECC can reduce the number of messages in EAP-TLS authentication which can alleviate the problem of authenticators dropping an EAP session because of too many round-trips. In the absence of a standard application profile specifying otherwise, TLS 1.3 <xref target="RFC8446"/> requires implementations to support ECC. New cipher suites that use ECC are also specified for TLS 1.2 <xref target="RFC5289"/>. Using ECC based cipher suites with existing code can significantly reduce the number of messages in a single EAP session.
+				Many IETF protocols now use elliptic curve cryptography (ECC) <xref target="RFC6090"/> for the underlying cryptographic operations. The use of ECC can reduce the size of certificates and signatures. For example, at a 128-bit security level, the size of a public key with traditional RSA is about 384 bytes, while the size of a public key with ECC is only 32-64 bytes. Similarly, the size of a digital signature with traditional RSA is 384 bytes, while the size is only 64 bytes with elliptic curve digital signature algorithm (ECDSA) and Edwards-curve digital signature algorithm (EdDSA) <xref target="RFC8032"/>. Using certificates that use ECC can reduce the number of messages in EAP-TLS authentication, which can alleviate the problem of authenticators dropping an EAP session because of too many round-trips. In the absence of a standard application profile specifying otherwise, TLS 1.3 <xref target="RFC8446"/> requires implementations to support ECC. New cipher suites that use ECC are also specified for TLS 1.2 <xref target="RFC5289"/>. Using ECC-based cipher suites with existing code can significantly reduce the number of messages in a single EAP session.
 			</t>
 
 			<section title="Guidelines for Certificates" anchor="cert-guide">
@@ -145,7 +145,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 						Object Identifiers (OIDs) is an ASN.1 data type that defines unique identifiers for objects. The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate. The Distinguished Encoding Rules (DER) length for the first two integers is always one octet and subsequent integers are base 128-encoded in the fewest possible octets. OIDs are used lavishly in X.509 certificates <xref target="RFC5280"/> and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer’s control:
 							<list style="symbols">
 								<t>
-								Each naming attribute in a DN (Directory Name) has one. DNs used in the issuer and subject fields as well as numerous extensions. A shallower naming will be smaller, e.g., C=FI, O=Example, SN=B0A123499EFC as against C=FI, O=Example, OU=Division 1, SOPN=Southern Finland, CN=Coolest IoT Gadget Ever, SN=B0A123499EFC.
+								Each naming attribute in a DN (Directory Name) has one. DNs are used in the issuer and subject fields as well as numerous extensions. A shallower naming will be smaller, e.g., C=FI, O=Example, SN=B0A123499EFC as against C=FI, O=Example, OU=Division 1, SOPN=Southern Finland, CN=Coolest IoT Gadget Ever, SN=B0A123499EFC.
 								</t>
 								<t>
 								Every certificate policy (and qualifier) and any mappings to another policy uses identifiers. Consider carefully what policies apply.
