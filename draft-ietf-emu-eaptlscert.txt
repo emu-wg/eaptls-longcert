@@ -5,9 +5,9 @@
 Network Working Group                                           M. Sethi
 Internet-Draft                                               J. Mattsson
 Intended status: Informational                                  Ericsson
-Expires: May 3, 2021                                           S. Turner
+Expires: May 4, 2021                                           S. Turner
                                                                    sn3rd
-                                                        October 30, 2020
+                                                        October 31, 2020
 
 
         Handling Large Certificates and Long Certificate Chains
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 3, 2021.
+   This Internet-Draft will expire on May 4, 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Sethi, et al.              Expires May 3, 2021                  [Page 1]
+Sethi, et al.              Expires May 4, 2021                  [Page 1]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -82,7 +82,7 @@ Table of Contents
        4.2.3.  Compressing Certificates  . . . . . . . . . . . . . .   8
        4.2.4.  Compact TLS 1.3 . . . . . . . . . . . . . . . . . . .   9
        4.2.5.  Suppressing Intermediate Certificates . . . . . . . .   9
-       4.2.6.  Raw Public Keys . . . . . . . . . . . . . . . . . . .   9
+       4.2.6.  Raw Public Keys . . . . . . . . . . . . . . . . . . .  10
        4.2.7.  New Certificate Types and Compression Algorithms  . .  10
      4.3.  Updating Authenticators . . . . . . . . . . . . . . . . .  10
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Sethi, et al.              Expires May 3, 2021                  [Page 2]
+Sethi, et al.              Expires May 4, 2021                  [Page 2]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -165,7 +165,7 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
 
 
-Sethi, et al.              Expires May 3, 2021                  [Page 3]
+Sethi, et al.              Expires May 4, 2021                  [Page 3]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -221,7 +221,7 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
 
 
-Sethi, et al.              Expires May 3, 2021                  [Page 4]
+Sethi, et al.              Expires May 4, 2021                  [Page 4]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -277,7 +277,7 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
 
 
-Sethi, et al.              Expires May 3, 2021                  [Page 5]
+Sethi, et al.              Expires May 4, 2021                  [Page 5]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -333,7 +333,7 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
 
 
-Sethi, et al.              Expires May 3, 2021                  [Page 6]
+Sethi, et al.              Expires May 4, 2021                  [Page 6]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -389,7 +389,7 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
 
 
-Sethi, et al.              Expires May 3, 2021                  [Page 7]
+Sethi, et al.              Expires May 4, 2021                  [Page 7]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -445,7 +445,7 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
 
 
-Sethi, et al.              Expires May 3, 2021                  [Page 8]
+Sethi, et al.              Expires May 4, 2021                  [Page 8]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -488,9 +488,23 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    including a pointer to the issuer certificate instead of including
    the entire issuer certificate.  However, it requires the side
    receiving the certificate containing the extension to have network
-   connectivity.  Naturally, such indirection cannot be used for the
-   server certificate (since the EAP peer in most deployments does not
-   have network connectivity before authentication).
+   connectivity (unless the information is already cached locally).
+   Naturally, such indirection cannot be used for the server certificate
+   (since the EAP peer in most deployments does not have network
+   connectivity before authentication and typically do not maintain a
+   local cache).
+
+
+
+
+
+
+
+
+Sethi, et al.              Expires May 4, 2021                  [Page 9]
+
+Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
+
 
 4.2.6.  Raw Public Keys
 
@@ -498,14 +512,6 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    the use of raw public keys for authentication.  Raw public keys use
    only a subset of information found in typical certificates and are
    therefore much smaller in size.  However, raw public keys require an
-
-
-
-Sethi, et al.              Expires May 3, 2021                  [Page 9]
-
-Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
-
-
    out-of-band mechanism to bind the public key with the entity
    presenting the key.  Using raw public keys will obviously avoid the
    fragmentation problems resulting from large certificates and long
@@ -548,19 +554,16 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    and certificate chains currently deployed, such an increase would
    likely ensure that peers and servers can complete EAP-TLS
    authentication.  At the same time, administrators responsible for EAP
-   deployments should ensure that this 100 roundtrip limit is not
-   exceeded in practice.
 
 
 
-
-
-
-
-Sethi, et al.              Expires May 3, 2021                 [Page 10]
+Sethi, et al.              Expires May 4, 2021                 [Page 10]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
+
+   deployments should ensure that this 100 roundtrip limit is not
+   exceeded in practice.
 
 5.  IANA Considerations
 
@@ -607,16 +610,17 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
               DOI 10.17487/RFC4851, May 2007,
               <https://www.rfc-editor.org/info/rfc4851>.
 
-   [RFC5216]  Simon, D., Aboba, B., and R. Hurst, "The EAP-TLS
-              Authentication Protocol", RFC 5216, DOI 10.17487/RFC5216,
-              March 2008, <https://www.rfc-editor.org/info/rfc5216>.
 
 
 
-Sethi, et al.              Expires May 3, 2021                 [Page 11]
+Sethi, et al.              Expires May 4, 2021                 [Page 11]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
+
+   [RFC5216]  Simon, D., Aboba, B., and R. Hurst, "The EAP-TLS
+              Authentication Protocol", RFC 5216, DOI 10.17487/RFC5216,
+              March 2008, <https://www.rfc-editor.org/info/rfc5216>.
 
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
               Housley, R., and W. Polk, "Internet X.509 Public Key
@@ -665,11 +669,7 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
 
 
-
-
-
-
-Sethi, et al.              Expires May 3, 2021                 [Page 12]
+Sethi, et al.              Expires May 4, 2021                 [Page 12]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -725,7 +725,7 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
 
 
-Sethi, et al.              Expires May 3, 2021                 [Page 13]
+Sethi, et al.              Expires May 4, 2021                 [Page 13]
 
 Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
 
@@ -781,4 +781,4 @@ Authors' Addresses
 
 
 
-Sethi, et al.              Expires May 3, 2021                 [Page 14]
+Sethi, et al.              Expires May 4, 2021                 [Page 14]

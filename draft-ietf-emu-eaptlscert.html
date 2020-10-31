@@ -313,7 +313,7 @@ ul.toc li {
 
   <meta name="dct.creator" content="Sethi, M., Mattsson, J., and S. Turner" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-emu-eaptlscert-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-30" />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-31" />
   <meta name="dct.abstract" content="The Extensible Authentication Protocol (EAP), defined in RFC3748, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This document looks at the this problem in detail and describes the potential solutions available.  " />
   <meta name="description" content="The Extensible Authentication Protocol (EAP), defined in RFC3748, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This document looks at the this problem in detail and describes the potential solutions available.  " />
 
@@ -337,7 +337,7 @@ ul.toc li {
 <td class="right">Ericsson</td>
 </tr>
 <tr>
-<td class="left">Expires: May 3, 2021</td>
+<td class="left">Expires: May 4, 2021</td>
 <td class="right">S. Turner</td>
 </tr>
 <tr>
@@ -346,7 +346,7 @@ ul.toc li {
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">October 30, 2020</td>
+<td class="right">October 31, 2020</td>
 </tr>
 
     	
@@ -362,7 +362,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on May 3, 2021.</p>
+<p>This Internet-Draft will expire on May 4, 2021.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2020 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -514,7 +514,7 @@ ul.toc li {
 <h1 id="rfc.section.4.2.5">
 <a href="#rfc.section.4.2.5">4.2.5.</a> Suppressing Intermediate Certificates</h1>
 <p id="rfc.section.4.2.5.p.1">For a client that has all intermediate certificates in the certificate chain, having the server send intermediates in the TLS handshake increases the size of the handshake unnecessarily. The TLS working group is working on an extension for TLS 1.3 <a href="#I-D.thomson-tls-sic" class="xref">[I-D.thomson-tls-sic]</a> that allows a TLS client that has access to the complete set of published intermediate certificates to inform servers of this fact so that the server can avoid sending intermediates, reducing the size of the TLS handshake. The mechanism is intended to be complementary with certificate compression.  </p>
-<p id="rfc.section.4.2.5.p.2">The Authority Information Access (AIA) extension specified in <a href="#RFC5280" class="xref">[RFC5280]</a> can be used with end-entity and CA certificates to access information about the issuer of the certificate in which the extension appears. For example, it can be used to provide the address of the OCSP responder from where revocation status of the certificate (in which the extension appears) can be checked. It can also be used to obtain the issuer certificate. Thus, the AIA extension can reduce the size of the certificate chain by only including a pointer to the issuer certificate instead of including the entire issuer certificate. However, it requires the side receiving the certificate containing the extension to have network connectivity. Naturally, such indirection cannot be used for the server certificate (since the EAP peer in most deployments does not have network connectivity before authentication).  </p>
+<p id="rfc.section.4.2.5.p.2">The Authority Information Access (AIA) extension specified in <a href="#RFC5280" class="xref">[RFC5280]</a> can be used with end-entity and CA certificates to access information about the issuer of the certificate in which the extension appears. For example, it can be used to provide the address of the OCSP responder from where revocation status of the certificate (in which the extension appears) can be checked. It can also be used to obtain the issuer certificate. Thus, the AIA extension can reduce the size of the certificate chain by only including a pointer to the issuer certificate instead of including the entire issuer certificate. However, it requires the side receiving the certificate containing the extension to have network connectivity (unless the information is already cached locally). Naturally, such indirection cannot be used for the server certificate (since the EAP peer in most deployments does not have network connectivity before authentication and typically do not maintain a local cache).  </p>
 <h1 id="rfc.section.4.2.6">
 <a href="#rfc.section.4.2.6">4.2.6.</a> Raw Public Keys</h1>
 <p><a href="#RFC7250" class="xref">[RFC7250]</a> defines a new certificate type and TLS extensions to enable the use of raw public keys for authentication. Raw public keys use only a subset of information found in typical certificates and are therefore much smaller in size. However, raw public keys require an out-of-band mechanism to bind the public key with the entity presenting the key. Using raw public keys will obviously avoid the fragmentation problems resulting from large certificates and long certificate chains. Deployments can consider their use as long as an appropriate out-of-band mechanism for binding public keys with identifiers is in place.  </p>
