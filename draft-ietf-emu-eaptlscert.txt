@@ -490,9 +490,9 @@ Internet-Draft    Certificates in TLS-based EAP Methods     October 2020
    receiving the certificate containing the extension to have network
    connectivity (unless the information is already cached locally).
    Naturally, such indirection cannot be used for the server certificate
-   (since the EAP peer in most deployments does not have network
-   connectivity before authentication and typically do not maintain a
-   local cache).
+   (since EAP peers in most deployments do not have network connectivity
+   before authentication and typically do not maintain an up-to-date
+   local cache of issuer certificates).
 
 
 
