@@ -55,7 +55,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 
 	<abstract>
 		<t>
-		The Extensible Authentication Protocol (EAP), defined in RFC3748, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This document looks at the this problem in detail and describes the potential solutions available.
+		The Extensible Authentication Protocol (EAP), defined in RFC3748, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This document looks at this problem in detail and describes the potential solutions available.
 		</t>
 	</abstract>
 </front>
@@ -123,7 +123,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			A certificate chain (called a certification path in <xref target="RFC5280"/>) in EAP-TLS can commonly have 2 - 6 intermediate certificates between the end-entity certificate and the trust anchor.
 		</t>
 		<t>
-			The size of certificates (and certificate chains) may also increase manifold in the future with the introduction of quantum-safe cryptography. For example, lattice-based cryptography would have public keys of approximately 1000 bytes and signatures of approximately 2000 bytes.
+			The size of certificates (and certificate chains) may also increase many-fold in the future with the introduction of quantum-safe cryptography. For example, lattice-based cryptography would have public keys of approximately 1000 bytes and signatures of approximately 2000 bytes.
 		</t>
 		<t>
 			Many access point implementations drop EAP sessions that do not complete within 40 - 50 round-trips. This means that if the chain is larger than ~ 60 kbytes, EAP-TLS authentication cannot complete successfully in most deployments.
@@ -144,7 +144,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 				<t>The general guideline of keeping the certificate size small by not populating fields with excessive information can help avert the problems of failed EAP-TLS authentication. More specific recommendations for certificates used with EAP-TLS are as follows:
 					<list style="symbols">
 						<t>
-						Object Identifiers (OIDs) is an ASN.1 data type that defines unique identifiers for objects. The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate. The Distinguished Encoding Rules (DER) length for the first two integers is always one octet and subsequent integers are base 128-encoded in the fewest possible octets. OIDs are used lavishly in X.509 certificates <xref target="RFC5280"/> and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer’s control:
+						Object Identifier (OID) is an ASN.1 data type that defines unique identifiers for objects. The OID's ASN.1 value, which is a string of integers, is then used to name objects to which they relate. The Distinguished Encoding Rules (DER) specify that the first two integers always occupy one octet and subsequent integers are base 128-encoded in the fewest possible octets. OIDs are used lavishly in X.509 certificates <xref target="RFC5280"/> and while not all can be avoided, e.g., OIDs for extensions or algorithms and their associate parameters, some are well within the certificate issuer’s control:
 							<list style="symbols">
 								<t>
 								Each naming attribute in a DN (Directory Name) has one. DNs are used in the issuer and subject fields as well as numerous extensions. A shallower naming will be smaller, e.g., C=FI, O=Example, SN=B0A123499EFC as against C=FI, O=Example, OU=Division 1, SOPN=Southern Finland, CN=Coolest IoT Gadget Ever, SN=B0A123499EFC.
@@ -229,7 +229,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 				There are several legitimate reasons that authenticators may want to limit the number of round-trips/packets/octets that can be sent. The main reason has been to work around issues where the EAP peer and EAP server end up in an infinite loop ACKing their messages. Another reason is that unlimited communication from an unauthenticated device using EAP could provide a channel for inappropriate bulk data transfer. A third reason is to prevent denial-of-service attacks.
 			</t>
 			<t>
-				Updating the millions of already deployed access points and switches is in many cases not realistic. Vendors may be out of business or do no longer support the products and administrators may have lost the login information to the devices. For practical purposes the EAP infrastructure is ossified for the time being.
+				Updating the millions of already deployed access points and switches is in many cases not realistic. Vendors may be out of business or no longer supporting the products and administrators may have lost the login information to the devices. For practical purposes the EAP infrastructure is ossified for the time being.
 			</t>
 			<t>
 				Vendors making new authenticators should consider increasing the number of round-trips allowed to 100 before denying the EAP authentication to complete. Based on the size of the certificates and certificate chains currently deployed, such an increase would likely ensure that peers and servers can complete EAP-TLS authentication. At the same time, administrators responsible for EAP deployments should ensure that this 100 roundtrip limit is not exceeded in practice.
