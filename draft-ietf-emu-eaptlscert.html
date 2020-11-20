@@ -313,7 +313,7 @@ ul.toc li {
 
   <meta name="dct.creator" content="Sethi, M., Mattsson, J., and S. Turner" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-emu-eaptlscert-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-07" />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-20" />
   <meta name="dct.abstract" content="The Extensible Authentication Protocol (EAP), defined in RFC3748, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This document looks at this problem in detail and describes the potential solutions available.  " />
   <meta name="description" content="The Extensible Authentication Protocol (EAP), defined in RFC3748, provides a standard mechanism for support of multiple authentication methods. EAP-Transport Layer Security (EAP-TLS) and other TLS-based EAP methods are widely deployed and used for network access authentication. Large certificates and long certificate chains combined with authenticators that drop an EAP session after only 40 - 50 round-trips is a major deployment problem. This document looks at this problem in detail and describes the potential solutions available.  " />
 
@@ -337,7 +337,7 @@ ul.toc li {
 <td class="right">Ericsson</td>
 </tr>
 <tr>
-<td class="left">Expires: May 11, 2021</td>
+<td class="left">Expires: May 24, 2021</td>
 <td class="right">S. Turner</td>
 </tr>
 <tr>
@@ -346,7 +346,7 @@ ul.toc li {
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">November 7, 2020</td>
+<td class="right">November 20, 2020</td>
 </tr>
 
     	
@@ -362,7 +362,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on May 11, 2021.</p>
+<p>This Internet-Draft will expire on May 24, 2021.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2020 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -521,7 +521,7 @@ ul.toc li {
 <h1 id="rfc.section.4.2.7">
 <a href="#rfc.section.4.2.7">4.2.7.</a> <a href="#new-cert-format" id="new-cert-format">New Certificate Types and Compression Algorithms</a>
 </h1>
-<p id="rfc.section.4.2.7.p.1">There is ongoing work to specify new certificate types and compression algorithms. For example, <a href="#I-D.mattsson-tls-cbor-cert-compress" class="xref">[I-D.mattsson-tls-cbor-cert-compress]</a> defines a compression algorithm for certificates that relies on Concise Binary Object Representation (CBOR) <a href="#RFC7049" class="xref">[RFC7049]</a>. <a href="#I-D.tschofenig-tls-cwt" class="xref">[I-D.tschofenig-tls-cwt]</a> registers a new TLS Certificate type which would enable TLS implementations to use CBOR Web Tokens (CWTs) <a href="#RFC8392" class="xref">[RFC8392]</a> as certificates. While these are early initiatives, future EAP-TLS deployments can consider the use of these new certificate types and compression algorithms to avoid large message sizes.  </p>
+<p id="rfc.section.4.2.7.p.1">There is ongoing work to specify new certificate types which are smaller than traditional X.509 certificates. For example, <a href="#I-D.mattsson-cose-cbor-cert-compress" class="xref">[I-D.mattsson-cose-cbor-cert-compress]</a> defines a Concise Binary Object Representation (CBOR) <a href="#RFC7049" class="xref">[RFC7049]</a> encoding of X.509 Certificates. The CBOR encoding can be used to compress existing X.509 certificate or for natively signed CBOR certificates. <a href="#I-D.tschofenig-tls-cwt" class="xref">[I-D.tschofenig-tls-cwt]</a> registers a new TLS Certificate type which would enable TLS implementations to use CBOR Web Tokens (CWTs) <a href="#RFC8392" class="xref">[RFC8392]</a> as certificates. While these are early initiatives, future EAP-TLS deployments can consider the use of these new certificate types and compression algorithms to avoid large message sizes.  </p>
 <h1 id="rfc.section.4.3">
 <a href="#rfc.section.4.3">4.3.</a> <a href="#update-APs" id="update-APs">Updating Authenticators</a>
 </h1>
@@ -546,7 +546,7 @@ ul.toc li {
 <tr>
 <td class="reference"><b id="I-D.ietf-emu-eap-tls13">[I-D.ietf-emu-eap-tls13]</b></td>
 <td class="top">
-<a>Mattsson, J.</a> and <a>M. Sethi</a>, "<a href="https://tools.ietf.org/html/draft-ietf-emu-eap-tls13-11">Using EAP-TLS with TLS 1.3</a>", Internet-Draft draft-ietf-emu-eap-tls13-11, October 2020.</td>
+<a>Mattsson, J.</a> and <a>M. Sethi</a>, "<a href="https://tools.ietf.org/html/draft-ietf-emu-eap-tls13-12">Using EAP-TLS with TLS 1.3</a>", Internet-Draft draft-ietf-emu-eap-tls13-12, November 2020.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC2119">[RFC2119]</b></td>
@@ -605,12 +605,12 @@ ul.toc li {
 <tr>
 <td class="reference"><b id="I-D.ietf-tls-ctls">[I-D.ietf-tls-ctls]</b></td>
 <td class="top">
-<a>Rescorla, E.</a>, <a>Barnes, R.</a> and <a>H. Tschofenig</a>, "<a href="https://tools.ietf.org/html/draft-ietf-tls-ctls-00">Compact TLS 1.3</a>", Internet-Draft draft-ietf-tls-ctls-00, April 2020.</td>
+<a>Rescorla, E.</a>, <a>Barnes, R.</a> and <a>H. Tschofenig</a>, "<a href="https://tools.ietf.org/html/draft-ietf-tls-ctls-01">Compact TLS 1.3</a>", Internet-Draft draft-ietf-tls-ctls-01, November 2020.</td>
 </tr>
 <tr>
-<td class="reference"><b id="I-D.mattsson-tls-cbor-cert-compress">[I-D.mattsson-tls-cbor-cert-compress]</b></td>
+<td class="reference"><b id="I-D.mattsson-cose-cbor-cert-compress">[I-D.mattsson-cose-cbor-cert-compress]</b></td>
 <td class="top">
-<a>Mattsson, J.</a>, <a>Selander, G.</a>, <a>Raza, S.</a>, <a>Hoglund, J.</a> and <a>M. Furuhed</a>, "<a href="https://tools.ietf.org/html/draft-mattsson-tls-cbor-cert-compress-00">CBOR Certificate Algorithm for TLS Certificate Compression</a>", Internet-Draft draft-mattsson-tls-cbor-cert-compress-00, March 2020.</td>
+<a>Raza, S.</a>, <a>Hoglund, J.</a>, <a>Selander, G.</a>, <a>Mattsson, J.</a> and <a>M. Furuhed</a>, "<a href="https://tools.ietf.org/html/draft-mattsson-cose-cbor-cert-compress-03">CBOR Encoding of X.509 Certificates (CBOR Certificates)</a>", Internet-Draft draft-mattsson-cose-cbor-cert-compress-03, November 2020.</td>
 </tr>
 <tr>
 <td class="reference"><b id="I-D.thomson-tls-sic">[I-D.thomson-tls-sic]</b></td>
