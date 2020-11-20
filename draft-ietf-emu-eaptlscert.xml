@@ -219,7 +219,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 			</section>			
 			<section title="New Certificate Types and Compression Algorithms" anchor="new-cert-format">
 				<t>
-					There is ongoing work to specify new certificate types and compression algorithms. For example, <xref target="I-D.mattsson-tls-cbor-cert-compress"/> defines a compression algorithm for certificates that relies on Concise Binary Object Representation (CBOR) <xref target="RFC7049"/>. <xref target="I-D.tschofenig-tls-cwt"/> registers a new TLS Certificate type which would enable TLS implementations to use CBOR Web Tokens (CWTs) <xref target="RFC8392"/> as certificates. While these are early initiatives, future EAP-TLS deployments can consider the use of these new certificate types and compression algorithms to avoid large message sizes.
+					There is ongoing work to specify new certificate types which are smaller than traditional X.509 certificates. For example, <xref target="I-D.mattsson-cose-cbor-cert-compress"/> defines a Concise Binary Object Representation (CBOR) <xref target="RFC7049"/> encoding of X.509 Certificates. The CBOR encoding can be used to compress existing X.509 certificate or for natively signed CBOR certificates. <xref target="I-D.tschofenig-tls-cwt"/> registers a new TLS Certificate type which would enable TLS implementations to use CBOR Web Tokens (CWTs) <xref target="RFC8392"/> as certificates. While these are early initiatives, future EAP-TLS deployments can consider the use of these new certificate types and compression algorithms to avoid large message sizes.
 				</t>
 			</section>
 		</section>
@@ -283,7 +283,7 @@ href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 		<?rfc include='reference.I-D.thomson-tls-sic'?> <!-- TLS 1.3 extension -->
 		<?rfc include='reference.I-D.ietf-tls-ctls'?> <!-- Compact TLS 1.3  -->
 		<?rfc include='reference.I-D.tschofenig-tls-cwt'?>
-		<?rfc include='reference.I-D.mattsson-tls-cbor-cert-compress'?>
+		<?rfc include='reference.I-D.mattsson-cose-cbor-cert-compress'?>
 		
 		<reference anchor="IEEE-802.1X">
 			<front>
